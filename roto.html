@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROTO — Hugo López</title>
+<meta name="description" content="ROTO — wearable armor for a generation worn down by the city. A brand project by Hugo López.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ROTO — Hugo López">
+<meta property="og:description" content="Wearable armor for a generation worn down by the city.">
+<meta property="og:image" content="assets/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ROTO — Hugo López">
+<meta name="twitter:description" content="Wearable armor for a generation worn down by the city.">
+<meta name="twitter:image" content="assets/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Archivo+Black&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bone:#ffffff;
+    --ink:#15140f;
+    --inkdim:#5b574b;
+    --dark:#0e0d0b;
+    --bonefade:#a39e90;
+    --font-title:'Anzeige Grotesk','Archivo Black',sans-serif;
+    --font-body:'Archivo',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Archivo',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;overflow-x:hidden}
+  #pagebg{position:fixed;inset:0;background:var(--bone);z-index:-2}
+  #grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  .mono{font-family:'Space Mono',monospace}
+  .display{font-family:var(--font-title);line-height:.9;letter-spacing:-.025em;text-transform:uppercase}
+
+  /* top chrome */
+  .chrome{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;
+    align-items:center;padding:20px 32px;mix-blend-mode:difference;color:#fff}
+  .chrome .wm{height:28px;width:auto;display:block}
+  .chrome .meta{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+  .chrome .meta .namelink{position:relative;display:inline-block;color:inherit;text-decoration:none;cursor:pointer}
+  .chrome .meta .namelink::before{content:"";position:absolute;inset:-22px -30px}
+  .chrome .meta .namelink .nm{border-bottom:1px solid transparent;transition:opacity .25s,border-color .25s}
+  .chrome .meta .namelink .em{position:absolute;left:0;top:0;white-space:nowrap;opacity:0;transition:opacity .25s;border-bottom:1px solid currentColor;padding-bottom:1px}
+  .chrome .meta .namelink .role{transition:opacity .25s}
+  .chrome .meta .namelink:hover .nm{opacity:0}
+  .chrome .meta .namelink:hover .em{opacity:1}
+  .chrome .meta .namelink:hover .role{opacity:0}
+  .prog{position:fixed;left:32px;bottom:26px;z-index:200;display:flex;align-items:center;gap:12px;
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;mix-blend-mode:difference;color:#fff}
+  .prog .bar{width:110px;height:1px;background:rgba(255,255,255,.35);position:relative}
+  .prog .bar i{position:absolute;left:0;top:0;height:100%;width:0;background:#fff}
+
+  .label{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--inkdim)}
+  .label .ix{font-weight:700}
+
+  .stage{position:sticky;top:0;height:100vh;overflow:hidden}
+  .pin{position:relative}
+  .will{will-change:transform,opacity}
+
+  /* ===== INTRO · logo over photo → rotated logo + side photo ===== */
+  #intro{position:relative;height:350vh;background:transparent}
+  #intro .stage{position:sticky;top:0;height:100vh;overflow:hidden;background:transparent}
+  .in-side{position:absolute;left:43.75vw;top:0;right:0;height:100%;overflow:hidden;transform:translateY(100%);will-change:transform}
+  .in-side img{position:absolute;left:50%;top:50%;width:100vh;height:56.25vw;object-fit:cover;transform:translate(-50%,-50%) rotate(90deg)}
+  .in-hero{position:absolute;inset:0;will-change:transform}
+  .in-hero img{width:100%;height:100%;object-fit:cover;display:block}
+  .in-logo{position:absolute;left:0;top:0;width:26.5vw;height:auto;transform-origin:50% 50%;will-change:transform;opacity:0}
+  .in-text{position:absolute;left:0;bottom:44px;writing-mode:vertical-rl;transform:rotate(180deg);opacity:0;
+    font-family:var(--font-body);font-weight:500;font-size:clamp(10px,1.4vh,13px);letter-spacing:.16em;text-transform:uppercase;color:#fff;white-space:nowrap}
+
+  /* ===== S1 (hero hook, then ONE pinned stage: young+city fixed, wired+crowd rise in, then lines) ===== */
+  #s1{position:relative;padding:0}
+  .s1-hook{height:100vh;height:100svh;margin:0;padding:2.4vw;overflow:hidden;position:relative;z-index:2;color:var(--bone)}
+  .s1-hook .hk{display:block;transform-origin:0 0;will-change:transform}
+  .s1-hook .hk span{display:block;width:max-content;white-space:nowrap;font-family:'Archivo',sans-serif;font-weight:900;font-stretch:62.5%;
+    text-transform:uppercase;line-height:.8;letter-spacing:-.01em;font-size:100px}
+  .s1-track{position:relative;height:260vh;margin-top:12vh}
+  .s1-stage{position:sticky;top:0;height:100vh;overflow:hidden}
+  .s1-inner{position:absolute;inset:0;will-change:transform}
+  /* fixed pair */
+  .s1-body{position:absolute;top:9vh;left:7vw;width:35vw;max-width:48ch;
+    font-size:clamp(16px,1.45vw,20px);line-height:1.55;font-weight:500;color:#27241c;letter-spacing:.02em;z-index:6}
+  .s1-body b{font-weight:700;color:var(--ink)}
+  .s1-body .hl::after{content:"21% rise in anxiety.";position:absolute;left:0;top:50%;transform:translateY(-50%);
+    height:1.32em;width:calc(var(--hl,0) * (100% + 0.55em));overflow:hidden;display:flex;align-items:center;font-weight:700;
+    background:#0e0d0b;color:#fff;white-space:nowrap;pointer-events:none}
+  .s1-body .hl{position:relative;white-space:nowrap;color:#27241c;font-weight:400}
+  .hl-br{display:none}
+  .s1-img{position:absolute;top:8vh;right:11vw;width:44vw;height:auto;filter:grayscale(1) contrast(1.04);z-index:4}
+  /* rising pair (translateY driven by scroll) */
+  .s1-wired{position:absolute;top:34vh;left:7vw;width:34vw;text-align:left;z-index:6;
+    font-family:var(--font-title);font-weight:800;line-height:1.08;letter-spacing:-.02em;
+    font-size:clamp(22px,2.9vw,44px);will-change:transform}
+  .crowd-wrap{display:contents}
+  .crowd-bg{position:absolute;top:64vh;left:50%;height:80vh;width:auto;transform:translateX(-50%);
+    z-index:3;display:block;will-change:transform}
+  .crowd-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;overflow:visible;opacity:0;transition:opacity .25s ease}
+  .crowd-lines line{stroke:#e24a5e;stroke-width:5.5;fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke}
+
+  /* ===== S2 pattern ===== */
+  .p-intro{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-start;padding:12vh 7vw 0}
+  .p-hook{font-family:var(--font-title);text-transform:uppercase;line-height:.92;letter-spacing:-.025em;
+    font-size:clamp(38px,6.6vw,112px);max-width:14ch}
+  .p-body{max-width:44ch;font-size:clamp(16px,1.4vw,20px);line-height:1.55;font-weight:500;color:#27241c;letter-spacing:.02em;margin-top:26px}
+  /* ===== S2 pattern — cascading photo cards ===== */
+  .pcard{position:absolute;overflow:visible}
+  .pcard .slot{width:100%;height:100%;
+    background:repeating-linear-gradient(135deg,#cdc6b6 0 11px,#c3bcab 11px 22px);
+    display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#6b6452}
+  .pcard img{width:100%;height:auto;display:block}
+  .pcard .pmedia{position:relative;overflow:hidden;display:block}
+  .pcard .blade{position:absolute;top:0;bottom:0;width:3px;background:#e24a5e;opacity:0;pointer-events:none;box-shadow:0 0 16px 2px rgba(226,74,94,.7)}
+  .plbl{display:block;margin-top:14px;text-align:left;
+    font-family:var(--font-body);font-weight:600;text-transform:none;
+    line-height:1.25;letter-spacing:.01em;font-size:clamp(15px,1.45vw,20px);color:var(--ink)}
+  .plbl.dark,.plbl.light{color:var(--ink);text-shadow:none}
+
+  /* ===== S2 symptom (fade to dark) ===== */
+  .sym{position:absolute;inset:0}
+  .sym-line{position:absolute;top:50%;left:7vw;right:7vw;transform:translateY(-50%);text-align:center;
+    font-family:var(--font-body);font-weight:500;letter-spacing:.03em;line-height:1.5;font-size:clamp(18px,1.9vw,26px);z-index:2}
+  .sym-spark{position:absolute;top:50%;left:50%;width:42vh;height:auto;opacity:0;z-index:3;pointer-events:none;will-change:transform}
+  .sym .mark{background:#0e0d0b;color:#fff;padding:.06em .3em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+  /* ===== SECTION 03 · THE ROTO WORLD (editorial grid) ===== */
+  #world{padding:15vh 5vw 18vh;background:var(--dark)}
+  .w-head{margin-bottom:5vh}
+  .w-flow{display:flex;flex-direction:column;gap:14px}
+  .w-top{display:flex;gap:14px;align-items:flex-start}
+  .w-left{flex:0 0 45%}
+  .w-right{flex:1;min-width:0}
+  .w-col{display:flex;flex-direction:column;gap:14px}
+  .gi{overflow:hidden;background:#161410;position:relative;display:block}
+  .gi img{width:100%;height:auto;display:block}
+  .gi.dim img{filter:brightness(.8) contrast(1.06) saturate(.9)}
+  /* RotoWorld reveal: clean wipe down + subtle zoom-out settle (no fade). Fail-open: hidden only when .pre is set. */
+  #world .w-flow .gi{transition:clip-path 1.05s cubic-bezier(.16,.78,.2,1)}
+  #world .w-flow .gi img{transition:transform 1.3s cubic-bezier(.16,.78,.2,1);transform-origin:50% 50%}
+  #world .w-flow .gi.pre{clip-path:inset(0 0 100% 0)}
+  #world .w-flow .gi.pre img{transform:scale(1.08)}
+  #world .w-flow .gi.in{clip-path:inset(0 0 0 0)}
+  #world .w-flow .gi.in img{transform:scale(1)}
+  .w-bottom{display:flex;gap:14px}
+  .w-bottom .gi{flex:1;min-width:0}
+  .w-bottom .gi img{height:60vh;object-fit:cover}
+  /* left column: crop the rail at the bottom so both columns match (no black gap) */
+  .w-left .gi:last-child{flex:1 1 auto;min-height:0;overflow:hidden}
+  .w-left .gi:last-child img{height:100%;object-fit:cover}
+  /* section 04 — the first product */
+  #firstproduct{padding:6vh 5vw 16vh;background:var(--dark)}
+  .fp-flow{display:flex;flex-direction:column;gap:14px}
+  .fp-flow .gi img{width:100%;height:auto;display:block}
+  /* footer */
+  #footer{background:var(--dark);color:var(--bone);padding:16vh 7vw 4vh;border-top:1px solid rgba(231,225,212,.1);position:relative;overflow:hidden}
+  .crack-layer{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:50;overflow:visible}
+  .crack-layer .crack{fill:none;stroke:#efe9dc;stroke-width:1.3;opacity:.85;stroke-linecap:round}
+  .crack-layer .crack.red{stroke:#e24a5e;opacity:.9;stroke-width:1.5}
+  .ft-statement{font-family:var(--font-body);font-weight:500;font-size:clamp(22px,2.8vw,42px);line-height:1.32;letter-spacing:.005em;max-width:22ch}
+  .ft-statement .em{color:var(--bonefade)}
+  .ft-rule{height:1px;background:rgba(231,225,212,.13);margin:8vh 0 4vh}
+  .ft-contact{display:flex;flex-wrap:wrap;gap:14px 30px;align-items:baseline;font-family:'Space Mono',monospace}
+  .ft-name{color:var(--bone);text-transform:uppercase;letter-spacing:.16em;font-size:12px}
+  .ft-contact a{color:var(--bonefade);text-decoration:none;text-transform:uppercase;letter-spacing:.12em;font-size:12px;border-bottom:1px solid transparent;padding-bottom:2px;transition:color .2s,border-color .2s}
+  .ft-contact a:hover{color:var(--bone);border-color:var(--bone)}
+  .ft-logo{display:block;width:100%;height:auto;margin:9vh 0 4vh;opacity:.9}
+  .ft-logo.glitch{animation:logoGlitch .55s steps(1,end) 1}
+  @keyframes logoGlitch{
+    0%  {transform:translate(0,0);filter:none;clip-path:none}
+    8%  {transform:translate(-5px,0);filter:drop-shadow(4px 0 #e24a5e) drop-shadow(-4px 0 #38c5d6);clip-path:inset(0 0 86% 0)}
+    16% {transform:translate(5px,1px);filter:drop-shadow(-5px 0 #e24a5e) drop-shadow(5px 0 #38c5d6);clip-path:inset(72% 0 8% 0)}
+    24% {transform:translate(-3px,-1px);filter:drop-shadow(6px 0 #e24a5e) drop-shadow(-3px 0 #38c5d6);clip-path:inset(34% 0 40% 0)}
+    32% {transform:translate(4px,0);filter:drop-shadow(-4px 0 #e24a5e) drop-shadow(4px 0 #38c5d6);clip-path:inset(10% 0 70% 0)}
+    40% {transform:translate(-2px,2px);filter:drop-shadow(3px 0 #e24a5e) drop-shadow(-6px 0 #38c5d6);clip-path:inset(60% 0 24% 0)}
+    52% {transform:translate(3px,-1px);filter:drop-shadow(-3px 0 #e24a5e) drop-shadow(3px 0 #38c5d6);clip-path:none;opacity:.5}
+    60% {transform:translate(-4px,0);filter:drop-shadow(5px 0 #e24a5e) drop-shadow(-5px 0 #38c5d6);clip-path:inset(46% 0 30% 0)}
+    72% {transform:translate(2px,0);filter:none;opacity:1}
+    80% {transform:translate(-2px,0);filter:drop-shadow(3px 0 #e24a5e) drop-shadow(-3px 0 #38c5d6)}
+    100%{transform:translate(0,0);filter:none;clip-path:none;opacity:.9}
+  }
+  .ft-colophon{display:flex;flex-direction:column;gap:16px;max-width:780px}
+  .ft-co-meta{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone)}
+  .ft-credits{display:flex;flex-direction:column;border-top:1px solid rgba(231,225,212,.14)}
+  .ft-credits .row{display:grid;grid-template-columns:1fr auto;gap:10px 48px;align-items:baseline;padding:9px 0;border-bottom:1px solid rgba(231,225,212,.08)}
+  .ft-credits dt{margin:0;font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:#7d7666}
+  .ft-credits dd{margin:0;font-family:var(--font-body);font-weight:500;font-size:14px;color:#7d7666;letter-spacing:.01em;text-align:right}
+  .ft-copyright{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:#6f6857}
+  @media(max-width:640px){.ft-credits .row{grid-template-columns:1fr;gap:3px}.ft-credits dd{text-align:left}}
+  /* full-screen looping ROTO film with a mark sweeping over it */
+  #rotofilm{position:relative;background:#000}
+  #rotofilm .stage{background:#000}
+  #rotofilm video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .cross-img{position:absolute;top:50%;left:50%;width:56vw;height:auto;will-change:transform;z-index:5;mix-blend-mode:difference}
+
+  .softhint{position:fixed;right:7vw;bottom:28px;z-index:150;font-family:'Space Mono',monospace;
+    font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--inkdim);display:flex;flex-direction:column;align-items:center;gap:7px}
+  .softhint .ln{width:1px;height:24px;background:currentColor;animation:drop 1.7s infinite}
+  @keyframes drop{0%{transform:scaleY(0);transform-origin:top}48%{transform:scaleY(1);transform-origin:top}52%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+  ::selection{background:var(--ink);color:var(--bone)}
+
+  /* accessibility: respect reduced-motion — neutralise CSS animation/transition, keep content visible */
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
+      transition-duration:.001ms!important;scroll-behavior:auto!important}
+  }
+
+  /* =================== MOBILE (portrait / narrow) =================== */
+  @media (max-width: 820px){
+    /* stable viewport height — kill the URL-bar jump */
+    .stage{height:100dvh}
+    .s1-stage{height:100dvh}
+
+    /* B9 · chrome + indices */
+    .chrome{padding:14px 18px}
+    .chrome .wm{height:20px}
+    .chrome .meta{font-size:9px;letter-spacing:.1em}
+    .chrome .meta .namelink .role{display:none}
+    .prog{left:18px;bottom:16px;gap:8px}
+    .prog .bar{width:64px}
+    .softhint{right:18px;bottom:16px;font-size:9px;letter-spacing:.18em}
+    .softhint .ln{height:18px}
+
+    /* B1 · hero */
+    #s1{padding:0}
+
+    /* B2 · S1 — natural vertical flow on mobile (no pinning, never overlaps) */
+    #s1{padding:0}
+    /* highlight is drawn by a JS tween on --hl when the phrase enters view */
+    .hl-br{display:inline}
+    .s1-track{height:auto;margin-top:1vh;padding-bottom:2vh}
+    .s1-stage{position:static;height:auto;overflow:visible}
+    .s1-inner{position:static;transform:none!important}
+    .s1-body{position:static;width:86vw;max-width:none;margin:0 auto 9vh;font-size:17px;line-height:1.55}
+    .s1-img{position:static;width:100vw;height:auto;aspect-ratio:1300/867;margin:0 0 12vh;left:auto;right:auto;top:auto}
+    .s1-wired{position:static;width:86vw;margin:0 auto 11vh;transform:none!important;opacity:1!important;
+      font-size:clamp(28px,8.5vw,42px);line-height:1.08;top:auto}
+    .crowd-wrap{display:block;position:relative;width:100vw;margin:0;overflow:visible}
+    .crowd-bg{position:static;width:100%;height:auto;aspect-ratio:852/1126;transform:none!important;top:auto;left:auto}
+    .crowd-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;clip-path:none}
+
+    /* B3 · The Pattern — natural vertical flow (no pinning, never overlaps) */
+    #pat{height:auto!important}
+    #pat .stage{position:static;height:auto;overflow:visible;padding:12vh 0 11vh}
+    .p-intro{position:static;inset:auto;padding:0 7vw;opacity:1!important}
+    .p-hook{font-size:clamp(30px,8vw,48px);max-width:15ch}
+    .p-body{font-size:15px;max-width:34ch;margin-top:16px}
+    .pcard{position:static!important;left:auto!important;top:auto!important;width:86vw!important;margin:9vh auto 0}
+    #st1,#st2,#st3{left:auto!important;top:auto!important;width:86vw!important}
+    .plbl{font-size:15px;margin-top:10px}
+
+    /* B4 · symptom */
+    .sym-line{left:7vw;right:7vw;font-size:clamp(19px,5vw,26px);line-height:1.4}
+    .sym-spark{width:62vw}
+
+    /* film */
+    .cross-img{width:78vw}
+
+    /* B6 · Roto World — single column, natural heights */
+    #world{padding:13vh 6vw 14vh}
+    .w-top{flex-direction:column}
+    .w-left{flex:1 1 auto;width:100%;height:auto!important}
+    .w-right{width:100%}
+    .w-left .gi:last-child{flex:none}
+    .w-left .gi:last-child img{height:auto}
+    .w-bottom{flex-direction:column}
+    .w-bottom .gi img{height:auto}
+
+    /* first product */
+    #firstproduct{padding:5vh 6vw 13vh}
+
+    /* B8 · footer */
+    #footer{padding:13vh 7vw 5vh}
+    .ft-statement{font-size:clamp(21px,5.6vw,30px);max-width:none}
+    .ft-logo{margin:7vh 0 4vh}
+    .ft-contact{gap:10px 22px}
+
+    /* section labels */
+    .label{font-size:11px;letter-spacing:.18em}
+  }
+</style>
+</head>
+<body>
+<div id="pagebg"></div>
+<div id="grain"></div>
+
+<div class="chrome">
+  <div style="display:flex;align-items:center;gap:22px">
+    <a href="index.html#menu" style="color:inherit;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid transparent;padding-bottom:2px" onmouseover="this.style.borderColor='currentColor'" onmouseout="this.style.borderColor='transparent'">Menu</a>
+  </div>
+  <div class="meta"><a class="namelink" href="mailto:hugolgromero@gmail.com"><span class="nm">HUGO LÓPEZ</span><span class="em">✉&nbsp;HUGOLGROMERO@GMAIL.COM</span><span class="role">&nbsp;· BRAND STRATEGIST</span></a></div>
+</div>
+<div class="prog"><span id="progPct">00</span><div class="bar"><i id="progBar"></i></div><span id="progLbl">THE SYMPTOM</span></div>
+
+<!-- ===================== INTRO ===================== -->
+<section id="intro">
+  <div class="stage">
+    <div class="in-side" id="inSide"><img src="assets/roto-intro-side.jpg" alt="Model in black leather with chain bag"></div>
+    <div class="in-hero" id="inHero"><img src="assets/roto-intro-hero.jpg" alt="Model in black leather walking past a concrete wall"></div>
+    <img class="in-logo" id="inLogo" src="assets/header-roto.png" alt="ROTO">
+    <div class="in-text" id="inText">Brand strategy and creative direction</div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 1 · LA TENSIÓN ===================== -->
+<section id="s1">
+  <h1 class="s1-hook" id="s1hook" aria-label="An exoskeleton to survive the city"><span class="hk" id="s1hk"><span>An exoskeleton</span><span>to survive</span><span>the city</span></span></h1>
+  <div class="s1-track">
+    <div class="s1-stage">
+      <div class="s1-inner" id="s1inner">
+      <p class="s1-body">Young people in cities are carrying more than ever — a 39% rise in mood disorders, a <b class="hl" id="hlAnx">21% rise in anxiety.</b><br class="hl-br"> Sensory overload, financial pressure, and a quiet kind of isolation.</p>
+      <img class="s1-img" src="assets/s1-cityscape.webp" alt="Aerial view of a city square with long human shadows">
+      <p class="s1-wired" id="s1wired">We're social by definition.<br>The city isolates us anyway.</p>
+      <div class="crowd-wrap">
+      <img class="crowd-bg" id="crowdImg" src="assets/s1-crowd-clean.jpg" alt="A crowd of isolated people">
+      <svg class="crowd-lines" id="crowdLines" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="softhint" id="s1hint">SCROLL<div class="ln"></div></div>
+
+<!-- ===================== SECTION 2 · THE PATTERN ===================== -->
+<section class="pin" id="pat" style="height:440vh">
+  <div class="stage">
+    <!-- intro -->
+    <div class="p-intro will" id="pIntro">
+      <div class="label" style="margin-bottom:28px"><span class="ix">01</span> — THE PATTERN</div>
+      <h2 class="p-hook">We've always answered this the same way.</h2>
+      <p class="p-body">When the world gets too heavy, humans don't face it alone — we gather, and we make something to carry us through.</p>
+    </div>
+    <!-- three cascading photo cards -->
+    <div class="pcard will" id="st1" style="left:14vw;top:12vh;width:40vw;z-index:1">
+      <div class="pmedia"><img src="assets/pat-cave-lascaux.jpg" alt="Lascaux cave paintings" style="aspect-ratio:367/275;object-fit:cover"><span class="blade"></span></div>
+      <div class="plbl dark">The paintings on a cave</div>
+    </div>
+    <div class="pcard will" id="st2" style="left:30vw;top:22vh;width:40vw;z-index:2">
+      <div class="pmedia"><img src="assets/pat-rave-new.jpg" alt="A rave gathering" style="aspect-ratio:368/276;object-fit:cover"><span class="blade"></span></div>
+      <div class="plbl light">The rave.</div>
+    </div>
+    <div class="pcard will" id="st3" style="left:46vw;top:32vh;width:40vw;z-index:3">
+      <div class="pmedia"><img src="assets/pat-punks-new.jpg" alt="Punks at a hardcore show" style="aspect-ratio:367/275;object-fit:cover"><span class="blade"></span></div>
+      <div class="plbl light">The punks.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 2b · THE SYMPTOM (fade to dark) ===================== -->
+<section class="pin fadezone" id="sym" style="height:360vh">
+  <div class="stage">
+    <div class="sym">
+      <img class="sym-spark" id="symSpark" src="assets/revo-spark.png" alt="">
+      <h2 class="sym-line flip" id="symToday">Today, is what we wear.</h2>
+      <h2 class="sym-line flip" id="symFashion" style="opacity:0"><span class="mark">Wearable armor</span></h2>
+      <h2 class="sym-line flip" id="symSymptom" style="opacity:0">for a generation worn down by the city.</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ROTO FILM (full-screen loop) + sweeping mark ===================== -->
+<section class="pin" id="rotofilm" style="height:185vh">
+  <div class="stage">
+    <video src="assets/roto-film.mp4" autoplay muted loop playsinline preload="auto"></video>
+    <img class="cross-img" src="assets/revo-logo-white.png" alt="ROTO logo">
+  </div>
+</section>
+
+<!-- ===================== SECTION 3 · ROTO + EL GIRO (dark) ===================== -->
+<!-- ===================== SECTION 03 · THE ROTO WORLD (editorial grid) ===================== -->
+<section id="world">
+  <div class="w-head">
+    <div class="label" style="color:var(--bonefade)"><span class="ix" style="color:var(--bone)">02</span> — THE ROTO WORLD</div>
+  </div>
+    <div class="w-flow">
+      <div class="w-top">
+        <div class="w-col w-left">
+          <div class="gi"><img src="assets/g-install.jpg" loading="lazy" decoding="async" alt="Light installation"></div>
+          <div class="gi"><img src="assets/g-rail.jpg" loading="lazy" decoding="async" alt="Bag hanging on a rail"></div>
+        </div>
+        <div class="w-col w-right">
+          <div class="gi"><img src="assets/g-figures.jpg" loading="lazy" decoding="async" alt="Two figures in a foggy gallery"></div>
+          <div class="gi"><img src="assets/g-case.jpg" loading="lazy" decoding="async" alt="Bag in a glass case on a stone plinth"></div>
+        </div>
+      </div>
+      <div class="gi"><img src="assets/g-bullbag.jpg" loading="lazy" decoding="async" alt="Black bag with silver bull hardware"></div>
+      <div class="w-bottom">
+        <div class="gi dim"><img src="assets/g-model1.jpg" loading="lazy" decoding="async" alt="Model in black leather and helmet"></div>
+        <div class="gi"><img src="assets/g-trio.jpg" loading="lazy" decoding="async" alt="Three figures in a foggy space"></div>
+        <div class="gi dim"><img src="assets/g-model2.jpg" loading="lazy" decoding="async" alt="Model with croc bag"></div>
+      </div>
+    </div>
+</section>
+
+<!-- ===================== SECTION 04 · THE FIRST PRODUCT ===================== -->
+<section id="firstproduct">
+  <div class="w-head">
+    <div class="label" style="color:var(--bonefade)"><span class="ix" style="color:var(--bone)">03</span> — THE FIRST PRODUCT</div>
+  </div>
+  <div class="fp-flow">
+    <div class="gi rv"><img src="assets/fp-rooftop.jpg" loading="lazy" decoding="async" alt="The first product on a leather sofa"></div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer id="footer">
+  <p class="ft-statement rv">We built a brand about surviving the city while we were learning to survive it ourselves. <span class="em">ROTO is where I started.</span></p>
+  <div class="ft-rule"></div>
+  <div class="ft-contact">
+    <span class="ft-name">Hugo López</span>
+    <a href="mailto:hugolgromero@gmail.com">hugolgromero@gmail.com</a>
+    <a href="https://www.linkedin.com/in/hugo-lopez-gonzalez-801a89213/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+  <img class="ft-logo rv" src="assets/footer-logo.png" alt="ROTO">
+  <div class="ft-colophon">
+    <dl class="ft-credits">
+      <div class="row"><dt>Concept, research, narrative, art direction &amp; sound</dt><dd>Hugo López</dd></div>
+      <div class="row"><dt>Visual identity &amp; logo</dt><dd>Priscilla Piraino</dd></div>
+    </dl>
+    <div class="ft-copyright">© 2025 ROTO — All rights reserved</div>
+  </div>
+  <svg class="crack-layer" id="crackLayer" aria-hidden="true"></svg>
+</footer>
+
+<script>
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const smooth=(e0,e1,x)=>{const t=clamp((x-e0)/(e1-e0),0,1);return t*t*(3-2*t);};
+function hx(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function mix(c1,c2,t){const a=hx(c1),b=hx(c2);return `rgb(${Math.round(lerp(a[0],b[0],t))},${Math.round(lerp(a[1],b[1],t))},${Math.round(lerp(a[2],b[2],t))})`;}
+const BONE='#ffffff', DARK='#0e0d0b', INK='#15140f';
+const pagebg=document.getElementById('pagebg');
+const VH=()=>window.innerHeight;
+const mqMobile=window.matchMedia('(max-width: 820px)');
+let MOBILE=mqMobile.matches;
+mqMobile.addEventListener('change',e=>{MOBILE=e.matches;buildCrowdLines();if(window.__frame)window.__frame();});
+let S1_bodyDocTop=null;
+
+/* ---- crowd red lines: one line emitted from each detected person, radiating across the screen ---- */
+/* people are auto-detected from the crowd image (in its natural coords), then mapped to screen px,
+   so the effect adapts when you swap in a new image and the lines always cross the whole viewport */
+const CROWD_NAT={w:852,h:1126};
+const FALLBACK_PEOPLE=[
+  {x:650,y:21},{x:716,y:48},{x:133,y:97},{x:321,y:120},{x:283,y:130},
+  {x:301,y:191},{x:418,y:194},{x:584,y:190},{x:418,y:250},{x:583,y:257},
+  {x:532,y:272},{x:191,y:274},{x:480,y:292},{x:61,y:332},{x:222,y:326},
+  {x:312,y:341},{x:353,y:290},{x:340,y:539},{x:813,y:330},{x:496,y:562},
+  {x:812,y:392},{x:732,y:419},{x:216,y:378},{x:489,y:439},{x:271,y:461},
+  {x:122,y:511},{x:400,y:569},{x:579,y:539},{x:647,y:639},{x:234,y:628},
+  {x:23,y:654},{x:611,y:639},{x:280,y:765},{x:327,y:763},{x:474,y:778},
+  {x:612,y:806},{x:522,y:816},{x:235,y:835},{x:363,y:831},{x:50,y:833},
+  {x:406,y:858},{x:577,y:874},{x:15,y:915},{x:188,y:922},{x:359,y:977},
+  {x:689,y:970},{x:37,y:980},{x:223,y:1030},{x:616,y:1105},{x:570,y:1084}
+];
+function detectPeople(img){
+  try{
+    const sw=170, sh=Math.max(8,Math.round(sw*img.naturalHeight/img.naturalWidth));
+    const c=document.createElement('canvas');c.width=sw;c.height=sh;
+    const cx=c.getContext('2d',{willReadFrequently:true});
+    cx.drawImage(img,0,0,sw,sh);
+    const data=cx.getImageData(0,0,sw,sh).data, N=sw*sh, lum=new Float32Array(N);
+    let sum=0;
+    for(let i=0;i<N;i++){const r=data[i*4],g=data[i*4+1],b=data[i*4+2];const L=0.299*r+0.587*g+0.114*b;lum[i]=L;sum+=L;}
+    const thr=(sum/N)*0.6, dark=new Uint8Array(N);
+    for(let i=0;i<N;i++)dark[i]=lum[i]<thr?1:0;
+    const lab=new Int32Array(N), st=[], comp=[];
+    for(let y=0;y<sh;y++)for(let x=0;x<sw;x++){const s0=y*sw+x; if(!dark[s0]||lab[s0])continue;
+      const id=comp.length+1; let sx=0,sy=0,n=0; st.length=0; st.push(s0); lab[s0]=id;
+      while(st.length){const p=st.pop(),py=(p/sw)|0,px=p%sw; sx+=px;sy+=py;n++;
+        for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(!dx&&!dy)continue;const nx=px+dx,ny=py+dy;
+          if(nx<0||ny<0||nx>=sw||ny>=sh)continue;const np=ny*sw+nx; if(dark[np]&&!lab[np]){lab[np]=id;st.push(np);}}}
+      comp.push({x:sx/n,y:sy/n,n});}
+    const minN=Math.max(2,N*0.00012), maxN=N*0.05;
+    return comp.filter(c=>c.n>=minN&&c.n<=maxN)
+      .map(c=>({x:c.x/sw*CROWD_NAT.w,y:c.y/sh*CROWD_NAT.h}));
+  }catch(e){return null;}
+}
+function coverRect(W,H){const s=Math.max(W/CROWD_NAT.w,H/CROWD_NAT.h);const dw=CROWD_NAT.w*s,dh=CROWD_NAT.h*s;return {x:(W-dw)/2,y:(H-dh)/2,w:dw,h:dh};}
+function buildCrowdLines(){
+  const svg=document.getElementById('crowdLines'), stage=document.querySelector('.s1-stage'), img=document.getElementById('crowdImg');
+  if(!svg||!stage||!img||!img.offsetWidth||!img.offsetHeight)return;
+  const NS='http://www.w3.org/2000/svg';
+  svg.innerHTML='';
+  const iw=img.offsetWidth, ih=img.offsetHeight;
+  let toPx, diag;
+  if(MOBILE){
+    // SVG overlays the crowd image exactly; people map straight into image space
+    svg.setAttribute('viewBox',`0 0 ${iw} ${ih}`);
+    toPx=p=>({x:p.x/CROWD_NAT.w*iw, y:p.y/CROWD_NAT.h*ih});
+    diag=Math.hypot(iw,ih)*1.5;
+  } else {
+    const W=stage.clientWidth, H=stage.clientHeight; if(!W||!H)return;
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+    const ix=img.offsetLeft-iw/2, iy=img.offsetTop;   // left:50% + translateX(-50%)
+    toPx=p=>({x:ix+p.x/CROWD_NAT.w*iw, y:iy+p.y/CROWD_NAT.h*ih});
+    diag=Math.hypot(W,H)*1.5;
+  }
+  let ppl=(window.__people&&window.__people.length>=4?window.__people:FALLBACK_PEOPLE).map(toPx);
+  ppl=ppl.map(p=>({p,k:Math.random()})).sort((a,b)=>a.k-b.k).map(o=>o.p);   // random draw order
+  ppl=ppl.slice(0, Math.round(ppl.length*0.7));                              // ~30% fewer lines
+  window.__crowdSegs=[];
+  ppl.forEach((p,i)=>{
+    const ang=Math.random()*Math.PI*2;                  // each person fires in a random direction
+    const ex=p.x+Math.cos(ang)*diag, ey=p.y+Math.sin(ang)*diag;
+    const ln=document.createElementNS(NS,'line');
+    ln.setAttribute('x1',p.x.toFixed(1));ln.setAttribute('y1',p.y.toFixed(1));
+    ln.setAttribute('x2',ex.toFixed(1));ln.setAttribute('y2',ey.toFixed(1));
+    ln.style.strokeDasharray=diag; ln.style.strokeDashoffset=diag;
+    svg.appendChild(ln);
+    window.__crowdSegs.push({el:ln,len:diag,start:(i/ppl.length)*0.6});
+  });
+}
+function updateCrowdLines(){
+  if(!window.__crowdSegs)return;
+  const svg=document.getElementById('crowdLines');
+  let draw;
+  if(MOBILE){
+    const img=document.getElementById('crowdImg'); if(!img)return;
+    if(!img.complete||!img.naturalWidth){if(svg)svg.style.opacity='0';window.__crowdSegs.forEach(s=>{s.el.style.strokeDashoffset=s.len;});return;}
+    const r=img.getBoundingClientRect(), vh=window.innerHeight;
+    draw=clamp((vh*0.80 - r.top)/(vh*0.62),0,1);   // draws as the crowd scrolls up into view
+  } else {
+    const track=document.querySelector('.s1-track'); if(!track)return;
+    draw=smooth(0.44,0.62,pinProg(track));         // after the crowd has parked, then hold
+  }
+  if(svg) svg.style.opacity = draw>0.002 ? '1' : '0';   // keep the whole layer hidden (no stray round-cap dots) until drawing
+  window.__crowdSegs.forEach(s=>{
+    const lp=smooth(s.start,s.start+0.40,draw);
+    s.el.style.strokeDashoffset=s.len*(1-lp);
+  });
+}
+function initCrowdLines(){
+  const img=document.querySelector('.crowd-bg'); if(!img)return;
+  const go=()=>{const ppl=detectPeople(img); if(ppl&&ppl.length>=4)window.__people=ppl; buildCrowdLines(); if(window.__frame)window.__frame();};
+  if(img.complete&&img.naturalWidth)go(); else img.addEventListener('load',go);
+  let rt=null;
+  window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{buildCrowdLines();if(window.__frame)window.__frame();},180);});
+}
+initCrowdLines();
+
+// mobile: draw the anxiety highlight once (JS tween on --hl) when the phrase scrolls into view
+if(MOBILE){
+  const hlEl=document.getElementById('hlAnx');
+  if(hlEl){
+    let done=false;
+    const tween=()=>{const t0=performance.now();(function step(now){const t=Math.min((now-t0)/650,1);const e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;hlEl.style.setProperty('--hl',e.toFixed(3));if(t<1)requestAnimationFrame(step);})(t0);};
+    const hio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!done){done=true;tween();hio.disconnect();}}),{threshold:0,rootMargin:'0px 0px -32% 0px'});
+    hio.observe(hlEl);
+  }
+}
+
+function pinProg(el){
+  const r=el.getBoundingClientRect();
+  const total=el.offsetHeight-window.innerHeight;
+  return clamp(-r.top/total,0,1);
+}
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.opacity=1;e.target.style.transform='none';e.target.dataset.shown=1;}}),{threshold:.2});
+document.querySelectorAll('.rv').forEach(el=>{el.style.opacity=0;el.style.transform='translateY(24px)';el.style.transition='opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1)';io.observe(el);});
+// RotoWorld: hide via .pre (fail-open), reveal with wipe + zoom-out. Observer + scroll-loop + safety net.
+const worldGi=[...document.querySelectorAll('#world .w-flow .gi')];
+function revealGi(el){if(el.classList.contains('in'))return;const d=(Math.random()*0.2).toFixed(2)+'s';el.style.transitionDelay=d;const im=el.querySelector('img');if(im)im.style.transitionDelay=d;el.classList.remove('pre');el.classList.add('in');}
+worldGi.forEach(el=>el.classList.add('pre'));
+const wio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){revealGi(e.target);wio.unobserve(e.target);}}),{threshold:.12});
+worldGi.forEach(el=>wio.observe(el));
+function worldScrollReveal(){worldGi.forEach(el=>{if(!el.classList.contains('in')&&el.getBoundingClientRect().top<window.innerHeight*0.86)revealGi(el);});}
+// safety: never leave an image hidden
+setTimeout(()=>worldGi.forEach(el=>{if(!el.classList.contains('in')&&el.getBoundingClientRect().top<window.innerHeight)revealGi(el);}),2500);
+
+const sections=[
+  {el:document.getElementById('s1'),lbl:'THE SYMPTOM'},
+  {el:document.getElementById('pat'),lbl:'THE PATTERN'},
+  {el:document.getElementById('sym'),lbl:'WEARABLE ARMOR'},
+  {el:document.getElementById('world'),lbl:'THE ROTO WORLD'},
+  {el:document.getElementById('firstproduct'),lbl:'THE FIRST PRODUCT'},
+  {el:document.getElementById('footer'),lbl:'THE END'},
+];
+const progBar=document.getElementById('progBar'),progPct=document.getElementById('progPct'),progLbl=document.getElementById('progLbl');
+
+function frame(){
+  const sy=window.scrollY, dh=document.body.scrollHeight-window.innerHeight;
+  const gp=clamp(sy/dh,0,1);
+  progBar.style.width=(gp*100)+'%';
+  progPct.textContent=String(Math.round(gp*100)).padStart(2,'0');
+
+  // ---- INTRO → S1 : background fades black → white as the composition leaves; hook ink follows ----
+  const introEl=document.getElementById('intro');
+  const introF=introEl?smooth(0.1,0.95,1-introEl.getBoundingClientRect().bottom/VH()):1;
+  const hookEl=document.getElementById('s1hook');
+  if(hookEl) hookEl.style.color=mix(BONE,INK,introF);
+
+  // ---- INTRO : logo rides up with the photo, rotates 90° beside the side photo, holds, then all scrolls up ----
+  const intro=document.getElementById('intro');
+  if(intro){
+    const W=window.innerWidth,H=VH();
+    const p=clamp(-intro.getBoundingClientRect().top/(H*2.5),0,1);
+    const LW=Math.min(W*0.265,H*0.425), LH=LW*638/1400, s=0.94;
+    const lg=document.getElementById('inLogo'), tx=document.getElementById('inText');
+    document.getElementById('inHero').style.transform=`translateY(${-smooth(0,.45,p)*100}%)`;
+    const t=smooth(.06,.55,p), arc=Math.sin(Math.PI*t)*H*0.11;
+    const ex=W*0.4375-W*0.031-LH*s/2, ey=H*0.33;
+    const x=lerp(W/2,ex,t)-LW/2, y=lerp(H/2,ey,t)-LH/2-arc;
+    lg.style.width=LW+'px';
+    lg.style.transform=`translate(${x}px,${y}px) rotate(${-90*t}deg) scale(${lerp(1,s,t)})`;
+    lg.style.opacity=1;
+    document.getElementById('inSide').style.transform=`translateY(${(1-smooth(.34,.74,p))*100}%)`;
+    const tt=smooth(.7,.9,p);
+    tx.style.left=(ex-tx.offsetWidth/2)+'px';
+    tx.style.opacity=tt;
+    tx.style.translate=`0 ${(1-tt)*24}px`;
+  }
+
+  // ---- S1 : young-people text + cityscape stay fixed; "We're social" + crowd rise in together, then lines ----
+  const hint=document.getElementById('s1hint');
+  if(hint){hint.style.opacity=clamp(1-window.scrollY/70,0,1);}
+  const s1track=document.querySelector('.s1-track');
+  if(s1track && !MOBILE){
+    const p=pinProg(s1track);
+    const tT=smooth(0.04,0.20,p);                // "We're social" rises FIRST
+    const cT=smooth(0.20,0.40,p);                // crowd rises sooner to its cropped park
+    const revealT=smooth(0.68,0.90,p);           // whole composition scrolls up together; the cropped crowd completes
+    const REVEAL=44;                             // vh the block travels up (crowd bottom comes flush, texts exit)
+    const wired=document.getElementById('s1wired'), cimg=document.getElementById('crowdImg'), inner=document.getElementById('s1inner');
+    if(wired){wired.style.transform=`translateY(${(1-tT)*90}vh)`; wired.style.opacity=smooth(0.02,0.10,p);}
+    if(cimg){cimg.style.transform=`translate(-50%, ${(1-cT)*100}vh)`; cimg.style.opacity=smooth(0.27,0.36,p);}
+    if(inner){inner.style.transform=`translateY(${-revealT*REVEAL}vh)`;}
+    const hl=document.getElementById('hlAnx');   // underline "21% rise in anxiety" while We're social rises
+    if(hl) hl.style.setProperty('--hl', smooth(0.03,0.20,p).toFixed(3));
+  } else if(s1track && MOBILE){
+    // highlight tween fires once (see hio below); nothing per-frame here
+  }
+  updateCrowdLines();
+
+  // ---- S2 pattern ----
+  const pat=document.getElementById('pat');
+  if(pat){const p=pinProg(pat);
+    const reveal=(card,t0,dir)=>{
+      if(!card)return;
+      let rp;
+      if(MOBILE){const r=card.querySelector('.pmedia').getBoundingClientRect();const vh=window.innerHeight;rp=clamp((vh*0.82 - r.top)/(vh*0.42),0,1);}
+      else {rp=smooth(t0,t0+.24,p);}
+      const img=card.querySelector('.pmedia img'), blade=card.querySelector('.blade'), media=card.querySelector('.pmedia');
+      if(media) media.style.boxShadow=`0 24px 70px rgba(20,18,15,${(0.28*rp).toFixed(3)})`;
+      if(img){
+        if(dir>0) img.style.clipPath=`inset(0 ${((1-rp)*100).toFixed(1)}% 0 0)`;
+        else      img.style.clipPath=`inset(0 0 0 ${((1-rp)*100).toFixed(1)}%)`;
+      }
+      if(blade){
+        const edge=(rp*100).toFixed(1);
+        if(dir>0){blade.style.left=edge+'%';blade.style.right='auto';}
+        else      {blade.style.right=edge+'%';blade.style.left='auto';}
+        blade.style.opacity=(rp>0.004&&rp<0.992)?1:0;
+      }
+      const lbl=card.querySelector('.plbl');
+      if(lbl) lbl.style.opacity=smooth(t0+.18,t0+.32,p).toFixed(3);
+    };
+    reveal(document.getElementById('st1'),.18,1);
+    reveal(document.getElementById('st2'),.42,-1);
+    reveal(document.getElementById('st3'),.66,1);
+  }
+
+  // ---- S2b symptom : fade to dark ----
+  const sym=document.getElementById('sym');
+  if(sym){const p=pinProg(sym);
+    const cross=smooth(.10,.55,p);                       // spark crosses super slowly
+    const sparkCenter=lerp(-25,125,cross);               // vw, its centre travels off-left -> off-right
+    const boundary=clamp(sparkCenter,0,100);             // wipe edge tracks the spark
+    const darkT=smooth(.66,.82,p);                       // phase 2: fade to black
+    pagebg.style.background=mix(BONE,DARK,darkT);
+    const flipC=mix(INK,BONE,darkT);
+    document.querySelectorAll('.flip').forEach(el=>el.style.color=flipC);
+    const today=document.getElementById('symToday'), fash=document.getElementById('symFashion'), symp=document.getElementById('symSymptom');
+    // as the spark passes, it erases "Today..." (left->right) and reveals "Wearable armor"
+    today.style.clipPath=`inset(0 0 0 ${boundary}%)`;
+    fash.style.clipPath=`inset(0 ${100-boundary}% 0 0)`;
+    today.style.opacity=1;
+    fash.style.opacity=(1-smooth(.68,.80,p)).toFixed(3);  // phase 2: Wearable fades out as it turns black
+    symp.style.opacity=smooth(.72,.86,p).toFixed(3);      // ...and the final line fades in
+    const spark=document.getElementById('symSpark');
+    if(spark){
+      spark.style.transform=`translate(calc(-50% + ${(sparkCenter-50).toFixed(2)}vw), -50%) rotate(${(cross*600).toFixed(1)}deg)`;
+      spark.style.opacity=(smooth(.08,.15,p)*(1-smooth(.54,.62,p))).toFixed(3);
+    }
+  }
+  // lock states above/below the fade zone
+  const symR=sym.getBoundingClientRect();
+  if(symR.top>window.innerHeight){pagebg.style.background=mix(DARK,BONE,introF);}
+  if(symR.bottom<window.innerHeight*0.5){pagebg.style.background=DARK;}
+
+  // ---- ROTO film: logo rises to center, holds with the video, then both scroll up together ----
+  const cx=document.getElementById('rotofilm');
+  if(cx){const cp=pinProg(cx);const cim=cx.querySelector('.cross-img');
+    const ct=Math.min(cp/0.55,1);
+    if(cim)cim.style.transform=`translate(-50%, calc(-50% + ${lerp(82,0,ct)}vh))`;}
+
+  // reveal fallback
+  document.querySelectorAll('.rv').forEach(el=>{
+    if(el.dataset.shown)return;
+    if(el.getBoundingClientRect().top < window.innerHeight*0.86){el.style.opacity=1;el.style.transform='none';el.dataset.shown=1;}
+  });
+  // RotoWorld reveal (scroll-driven backup): wipe down + zoom-out settle, staggered
+  worldScrollReveal();
+
+  // progress label
+  let cur=sections[0].lbl;
+  sections.forEach(s=>{if(s.el&&s.el.getBoundingClientRect().top<=window.innerHeight*0.5)cur=s.lbl;});
+  progLbl.textContent=cur;
+  raf=null;
+}
+let raf=null;
+function onScroll(){if(!raf)raf=requestAnimationFrame(frame);}
+window.__frame=frame;
+// hook: each line fills the width, then the block stretches vertically to fill the screen
+function fitHook(){
+  const box=document.getElementById('s1hook'), hk=document.getElementById('s1hk'); if(!box||!hk)return;
+  const cs=getComputedStyle(box), pad=parseFloat(cs.paddingLeft)||0;
+  const aw=box.clientWidth-pad*2, ah=box.clientHeight-pad*2;
+  hk.style.transform='none';
+  [...hk.children].forEach(s=>{s.style.fontSize='100px';const w=s.getBoundingClientRect().width||1;s.style.fontSize=(100*aw/w)+'px';});
+  const h=hk.getBoundingClientRect().height||1;
+  hk.style.transform=`scaleY(${ah/h})`;
+}
+fitHook();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitHook);
+window.addEventListener('resize',fitHook);
+// hook: scroll resistance — when the title lands full-screen, hold it ~1.5s before scrolling continues
+(function(){
+  const hook=document.getElementById('s1hook'); if(!hook)return;
+  const HOLD=1500; let locked=false, lockY=0, prev=window.scrollY;
+  const topY=()=>hook.getBoundingClientRect().top+window.scrollY;
+  const block=e=>{if(locked){e.preventDefault();}};
+  const keys=['ArrowDown','ArrowUp','PageDown','PageUp','Space',' ','Home','End'];
+  window.addEventListener('wheel',block,{passive:false});
+  window.addEventListener('touchmove',block,{passive:false});
+  window.addEventListener('keydown',e=>{if(locked&&keys.includes(e.key))e.preventDefault();});
+  window.addEventListener('scroll',()=>{
+    const sy=window.scrollY;
+    if(locked){if(Math.abs(sy-lockY)>1)window.scrollTo(0,lockY);return;}
+    const t=topY();
+    if((prev<t&&sy>=t)||(prev>t&&sy<=t)){
+      locked=true; lockY=t; window.scrollTo(0,t);
+      setTimeout(()=>{locked=false;prev=window.scrollY;},HOLD);
+      return;
+    }
+    prev=sy;
+  },{passive:true});
+})();
+window.addEventListener('scroll',onScroll,{passive:true});
+window.addEventListener('resize',onScroll);
+frame();
+// match left column height to the right so the rail crops at the bottom (no black gap)
+function matchWorldCols(){if(MOBILE)return;var L=document.querySelector('.w-left'),R=document.querySelector('.w-right');if(L&&R){L.style.height='';L.style.height=R.offsetHeight+'px';}}
+window.addEventListener('resize',matchWorldCols);
+window.addEventListener('load',matchWorldCols);
+document.querySelectorAll('#world img').forEach(function(im){im.addEventListener('load',matchWorldCols);});
+setTimeout(matchWorldCols,400);setTimeout(matchWorldCols,1200);
+
+/* footer: cracks spread as you MOVE the cursor (burst on click too), drawing themselves in.
+   Footer click also glitches the ROTO logo (broken-screen reaction). */
+(function(){
+  const footer=document.getElementById('footer'), svg=document.getElementById('crackLayer');
+  if(!footer||!svg)return;
+  const NS='http://www.w3.org/2000/svg';
+  function addPath(d,cls){
+    const p=document.createElementNS(NS,'path');
+    p.setAttribute('d',d); p.setAttribute('class',cls); svg.appendChild(p);
+    const L=p.getTotalLength()||1;
+    p.style.strokeDasharray=L; p.style.strokeDashoffset=L;
+    const t0=performance.now();
+    (function step(now){
+      const t=Math.min((now-t0)/300,1), e=1-Math.pow(1-t,2);
+      p.style.strokeDashoffset=(L*(1-e)).toFixed(2);
+      if(t<1) requestAnimationFrame(step);
+    })(t0);
+    while(svg.childNodes.length>640) svg.removeChild(svg.firstChild);
+  }
+  function jagged(ax,ay,bx,by){
+    const dx=bx-ax,dy=by-ay,len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len;
+    const segs=2+Math.floor(Math.random()*2); let d=`M${ax.toFixed(1)},${ay.toFixed(1)}`;
+    for(let s=1;s<=segs;s++){const t=s/segs,off=(Math.random()-0.5)*Math.min(28,len*0.55);
+      d+=` L${(ax+dx*t+nx*off).toFixed(1)},${(ay+dy*t+ny*off).toFixed(1)}`;}
+    return d;
+  }
+  function shatter(x,y){
+    const rays=7+Math.floor(Math.random()*4),base=Math.random()*6.283;
+    for(let i=0;i<rays;i++){const ang=base+(i/rays)*6.283+(Math.random()-0.5)*0.4,len=70+Math.random()*230;
+      addPath(jagged(x,y,x+Math.cos(ang)*len,y+Math.sin(ang)*len), Math.random()<0.16?'crack red':'crack');}
+  }
+  let last=null;
+  footer.addEventListener('pointermove',e=>{
+    const r=footer.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    if(!last){last={x,y};return;}
+    if(Math.hypot(x-last.x,y-last.y)<36)return;
+    addPath(jagged(last.x,last.y,x,y), Math.random()<0.16?'crack red':'crack');
+    if(Math.random()<0.5){const ang=Math.atan2(y-last.y,x-last.x)+(Math.random()<0.5?1:-1)*(0.6+Math.random()*0.7),bl=30+Math.random()*80;
+      addPath(jagged(x,y,x+Math.cos(ang)*bl,y+Math.sin(ang)*bl),'crack');}
+    last={x,y};
+  });
+  footer.addEventListener('pointerleave',()=>{last=null;});
+  footer.addEventListener('pointerdown',e=>{const r=footer.getBoundingClientRect();shatter(e.clientX-r.left,e.clientY-r.top);});
+  // footer click also glitches the ROTO logo (broken-screen reaction)
+  const ftLogo=document.querySelector('.ft-logo');
+  if(ftLogo){
+    footer.addEventListener('pointerdown',()=>{ftLogo.classList.remove('glitch');void ftLogo.offsetWidth;ftLogo.classList.add('glitch');});
+    ftLogo.addEventListener('animationend',()=>ftLogo.classList.remove('glitch'));
+  }
+})();
+</script>
+</body>
+</html>
