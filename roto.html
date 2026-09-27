@@ -75,11 +75,13 @@
 
   /* ===== S1 (hero hook, then ONE pinned stage: young+city fixed, wired+crowd rise in, then lines) ===== */
   #s1{position:relative;padding:0}
-  .s1-hook{height:100vh;height:100svh;margin:0;padding:2.4vw;overflow:hidden;position:relative;z-index:2;color:var(--bone)}
+  .s1-hookwrap{height:200vh;position:relative}
+  .s1-hook{height:100vh;height:100svh;margin:0;padding:2.4vw;overflow:hidden;position:sticky;top:0;z-index:2;color:var(--bone)}
+  .s1-hook .w{font-style:normal;opacity:0}
   .s1-hook .hk{display:block;transform-origin:0 0;will-change:transform}
   .s1-hook .hk span{display:block;width:max-content;white-space:nowrap;font-family:'Archivo',sans-serif;font-weight:900;font-stretch:62.5%;
     text-transform:uppercase;line-height:.8;letter-spacing:-.01em;font-size:100px}
-  .s1-track{position:relative;height:260vh;margin-top:12vh}
+  .s1-track{position:relative;height:260vh;margin-top:0}
   .s1-stage{position:sticky;top:0;height:100vh;overflow:hidden}
   .s1-inner{position:absolute;inset:0;will-change:transform}
   /* fixed pair */
@@ -309,7 +311,7 @@
 
 <!-- ===================== SECTION 1 · LA TENSIÓN ===================== -->
 <section id="s1">
-  <h1 class="s1-hook" id="s1hook" aria-label="An exoskeleton to survive the city"><span class="hk" id="s1hk"><span>An exoskeleton</span><span>to survive</span><span>the city</span></span></h1>
+  <div class="s1-hookwrap" id="s1hookwrap"><h1 class="s1-hook" id="s1hook" aria-label="An exoskeleton to survive the city"><span class="hk" id="s1hk"><span><i class="w">An</i> <i class="w">exoskeleton</i></span><span><i class="w">to</i> <i class="w">survive</i></span><span><i class="w">the</i> <i class="w">city</i></span></span></h1></div>
   <div class="s1-track">
     <div class="s1-stage">
       <div class="s1-inner" id="s1inner">
@@ -593,6 +595,13 @@ function frame(){
   const introF=introEl?smooth(0.1,0.95,1-introEl.getBoundingClientRect().bottom/VH()):1;
   const hookEl=document.getElementById('s1hook');
   if(hookEl) hookEl.style.color=mix(BONE,INK,introF);
+  const hwrap=document.getElementById('s1hookwrap');
+  if(hwrap){
+    const hr=hwrap.getBoundingClientRect();
+    const lead=VH()*.6, hp=clamp((lead-hr.top)/Math.max(1,hwrap.offsetHeight-VH()+lead),0,1);
+    const ws=hwrap.querySelectorAll('.w'), n=ws.length;
+    ws.forEach((w,i)=>{const s=i*(.88/(n-1)),e=s+.12;w.style.opacity=smooth(s,e,hp).toFixed(3);});
+  }
 
   // ---- INTRO : logo rides up with the photo, rotates 90° beside the side photo, holds, then all scrolls up ----
   const intro=document.getElementById('intro');
@@ -728,28 +737,7 @@ function fitHook(){
 fitHook();
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitHook);
 window.addEventListener('resize',fitHook);
-// hook: scroll resistance — when the title lands full-screen, hold it ~1.5s before scrolling continues
-(function(){
-  const hook=document.getElementById('s1hook'); if(!hook)return;
-  const HOLD=1500; let locked=false, lockY=0, prev=window.scrollY;
-  const topY=()=>hook.getBoundingClientRect().top+window.scrollY;
-  const block=e=>{if(locked){e.preventDefault();}};
-  const keys=['ArrowDown','ArrowUp','PageDown','PageUp','Space',' ','Home','End'];
-  window.addEventListener('wheel',block,{passive:false});
-  window.addEventListener('touchmove',block,{passive:false});
-  window.addEventListener('keydown',e=>{if(locked&&keys.includes(e.key))e.preventDefault();});
-  window.addEventListener('scroll',()=>{
-    const sy=window.scrollY;
-    if(locked){if(Math.abs(sy-lockY)>1)window.scrollTo(0,lockY);return;}
-    const t=topY();
-    if((prev<t&&sy>=t)||(prev>t&&sy<=t)){
-      locked=true; lockY=t; window.scrollTo(0,t);
-      setTimeout(()=>{locked=false;prev=window.scrollY;},HOLD);
-      return;
-    }
-    prev=sy;
-  },{passive:true});
-})();
+
 window.addEventListener('scroll',onScroll,{passive:true});
 window.addEventListener('resize',onScroll);
 frame();

@@ -13,7 +13,7 @@
   :root{--bone:#fff;--dark:#0b0b0b;--fade:#8f8d87;
     --ft:'Arketta','Zilla Slab',Georgia,serif;--fm:'Space Mono',monospace;}
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:auto}
   body{font-family:var(--ft);background:var(--dark);color:var(--bone);-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
   a:hover{color:var(--bone)}
@@ -86,7 +86,7 @@
 
 <div class="sig">Hugo López</div>
 <nav class="topnav" id="topnav">
-  <span class="navlbl">Menu</span>
+  <a class="navlbl" href="#menu">Menu</a>
   <div class="worklist">
     <a href="manifesto.html">Manifesto</a>
     <a href="about.html">About me</a>
@@ -126,6 +126,8 @@
   function upd(){ n.classList.toggle('on', scrollY > innerHeight*0.55); }
   addEventListener('scroll',function(){ if(q) return; q=true;
     requestAnimationFrame(function(){ q=false; upd(); }); },{passive:true});
+  if(location.hash==='#menu'){var mm=document.getElementById('menu');if(mm)scrollTo(0,mm.offsetTop);}
+  document.querySelectorAll('a[href="#menu"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var mm=document.getElementById('menu');scrollTo({top:mm.offsetTop,behavior:'smooth'});});});
   upd();
 
   /* ping-pong: al terminar rebobina encadenando seeks (un seek por frame de
