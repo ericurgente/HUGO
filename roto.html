@@ -100,7 +100,7 @@
   .pt-w div{width:max-content;white-space:nowrap;transform-origin:0 0;font-family:'Bowlby One',sans-serif;font-weight:400;font-size:100px;line-height:.8;text-transform:uppercase;color:#fff}
 
   /* ===== ROTO INDEX (8d) · list → sections with sticky side index ===== */
-  #rindex{position:relative;background:#0b0b0b;color:#fff}
+  #rindex{position:relative;background:#000;color:#fff}
   .ri-menu{min-height:100vh;min-height:100svh;padding:16vh 2.4vw 10vh;display:flex;flex-direction:column;justify-content:center;max-width:1100px;margin:0 auto}
   .ri-kicker{font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);padding-bottom:16px}
   .ri-row{display:flex;align-items:baseline;gap:28px;padding:14px 0 12px;border-top:1px solid rgba(255,255,255,.2);color:#fff;text-decoration:none;transition:padding-left .3s ease}
@@ -140,7 +140,7 @@
   .ps-tag .ln{width:40px;height:1px;background:#fff}
   .ps-tag .lb{background:#fff;padding:3px 7px}
   /* ===== ROTO WORLD GALLERY · vertical scroll drives a horizontal track ===== */
-  #rgal{position:relative;height:420vh;background:#0b0b0b}
+  #rgal{position:relative;height:420vh;background:#000}
   #rgal .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
   .rg-head{position:absolute;left:calc(2.4vw + 260px);right:2.4vw;top:26px;display:flex;justify-content:space-between;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;z-index:2}
   .rg-track{position:absolute;left:0;top:80px;bottom:60px;display:flex;gap:24px;padding-left:calc(2.4vw + 260px);padding-right:2.4vw;will-change:transform}
@@ -373,7 +373,6 @@
   </div>
   <div class="meta"><a class="namelink" href="mailto:hugolgromero@gmail.com"><span class="nm">HUGO LÓPEZ</span><span class="em">✉&nbsp;HUGOLGROMERO@GMAIL.COM</span><span class="role">&nbsp;· BRAND STRATEGIST</span></a></div>
 </div>
-<div class="prog"><span id="progPct">00</span><div class="bar"><i id="progBar"></i></div><span id="progLbl">THE SYMPTOM</span></div>
 
 <!-- ===================== INTRO ===================== -->
 <section id="intro">
@@ -385,13 +384,6 @@
   </div>
 </section>
 
-<!-- ===================== PERSONA ===================== -->
-<section id="persona" aria-label="Roto persona: fear, stress, rage, overstimulation, anxiety, isolation, loneliness, mistrust">
-  <div class="stage">
-    <img class="ps-img" src="assets/roto-persona-spikes.jpg" alt="Face covered in metal pins">
-    <div class="ps-title"><span>Roto persona</span><span class="ps-fl">flooded with</span><span class="ps-dec" id="psDec">Fear</span></div>
-  </div>
-</section>
 
 <!-- ===================== SECTION 1 · LA TENSIÓN ===================== -->
 <section id="s1">
@@ -435,8 +427,14 @@
   </div>
   <div class="ri-sec" id="ri-1" data-ri-sec="1">
     <div class="ri-big"><span class="n">02</span><span class="t">The brand</span></div>
-    <div class="ri-ph">Contenido pendiente</div>
   </div>
+  <!-- ===================== PERSONA ===================== -->
+  <section id="persona" aria-label="Roto persona: fear, stress, rage, overstimulation, anxiety, isolation, loneliness, mistrust">
+    <div class="stage">
+      <img class="ps-img" src="assets/roto-persona-spikes.jpg" alt="Face covered in metal pins">
+      <div class="ps-title"><span>Roto persona</span><span class="ps-fl">flooded with</span><span class="ps-dec" id="psDec">Fear</span></div>
+    </div>
+  </section>
   <div class="ri-sec" id="ri-2" data-ri-sec="2">
     <div class="ri-big"><span class="n">03</span><span class="t">The system</span></div>
     <div class="ri-ph">Contenido pendiente</div>
@@ -453,13 +451,13 @@
       <div class="rg-head"><span>05 — Roto world · Archive</span><span id="rgNum">01 / 08</span></div>
       <div class="rg-track" id="rgTrack">
         <figure><video src="assets/roto-g-rooftop.mp4" muted autoplay loop playsinline></video><figcaption><span>01</span><span>Rooftop</span></figcaption></figure>
-        <figure><img src="assets/roto-g-silhouettes.jpg" alt="Roto — Silhouettes" loading="lazy"><figcaption><span>02</span><span>Silhouettes</span></figcaption></figure>
-        <figure><img src="assets/roto-g-fog.jpg" alt="Roto — Fog" loading="lazy"><figcaption><span>03</span><span>Fog</span></figcaption></figure>
-        <figure><img src="assets/roto-g-bag.jpg" alt="Roto — Spiked bag" loading="lazy"><figcaption><span>04</span><span>Spiked bag</span></figcaption></figure>
-        <figure><img src="assets/g-trio.jpg" alt="Roto — Trio" loading="lazy"><figcaption><span>05</span><span>Trio</span></figcaption></figure>
-        <figure><img src="assets/g-bullbag.jpg" alt="Roto — Bull bag" loading="lazy"><figcaption><span>06</span><span>Bull bag</span></figcaption></figure>
-        <figure><img src="assets/g-install.jpg" alt="Roto — Install" loading="lazy"><figcaption><span>07</span><span>Install</span></figcaption></figure>
-        <figure><img src="assets/g-figures.jpg" alt="Roto — Figures" loading="lazy"><figcaption><span>08</span><span>Figures</span></figcaption></figure>
+        <figure><img src="assets/roto-g-silhouettes.jpg" alt="Roto — Silhouettes"><figcaption><span>02</span><span>Silhouettes</span></figcaption></figure>
+        <figure><img src="assets/roto-g-fog.jpg" alt="Roto — Fog"><figcaption><span>03</span><span>Fog</span></figcaption></figure>
+        <figure><img src="assets/roto-g-bag.jpg" alt="Roto — Spiked bag"><figcaption><span>04</span><span>Spiked bag</span></figcaption></figure>
+        <figure><img src="assets/g-trio.jpg" alt="Roto — Trio"><figcaption><span>05</span><span>Trio</span></figcaption></figure>
+        <figure><img src="assets/g-bullbag.jpg" alt="Roto — Bull bag"><figcaption><span>06</span><span>Bull bag</span></figcaption></figure>
+        <figure><img src="assets/g-install.jpg" alt="Roto — Install"><figcaption><span>07</span><span>Install</span></figcaption></figure>
+        <figure><img src="assets/g-figures.jpg" alt="Roto — Figures"><figcaption><span>08</span><span>Figures</span></figcaption></figure>
       </div>
     </div>
   </div>
@@ -487,7 +485,6 @@
     </div>
   </div>
 </section>
-<div class="softhint" id="s1hint">SCROLL<div class="ln"></div></div>
 
 <!-- ===================== SECTION 2 · THE PATTERN ===================== -->
 <section class="pin" id="pat" style="height:440vh">
@@ -543,19 +540,19 @@
     <div class="w-flow">
       <div class="w-top">
         <div class="w-col w-left">
-          <div class="gi"><img src="assets/g-install.jpg" loading="lazy" decoding="async" alt="Light installation"></div>
-          <div class="gi"><img src="assets/g-rail.jpg" loading="lazy" decoding="async" alt="Bag hanging on a rail"></div>
+          <div class="gi"><img src="assets/g-install.jpg" decoding="async" alt="Light installation"></div>
+          <div class="gi"><img src="assets/g-rail.jpg" decoding="async" alt="Bag hanging on a rail"></div>
         </div>
         <div class="w-col w-right">
-          <div class="gi"><img src="assets/g-figures.jpg" loading="lazy" decoding="async" alt="Two figures in a foggy gallery"></div>
-          <div class="gi"><img src="assets/g-case.jpg" loading="lazy" decoding="async" alt="Bag in a glass case on a stone plinth"></div>
+          <div class="gi"><img src="assets/g-figures.jpg" decoding="async" alt="Two figures in a foggy gallery"></div>
+          <div class="gi"><img src="assets/g-case.jpg" decoding="async" alt="Bag in a glass case on a stone plinth"></div>
         </div>
       </div>
-      <div class="gi"><img src="assets/g-bullbag.jpg" loading="lazy" decoding="async" alt="Black bag with silver bull hardware"></div>
+      <div class="gi"><img src="assets/g-bullbag.jpg" decoding="async" alt="Black bag with silver bull hardware"></div>
       <div class="w-bottom">
-        <div class="gi dim"><img src="assets/g-model1.jpg" loading="lazy" decoding="async" alt="Model in black leather and helmet"></div>
-        <div class="gi"><img src="assets/g-trio.jpg" loading="lazy" decoding="async" alt="Three figures in a foggy space"></div>
-        <div class="gi dim"><img src="assets/g-model2.jpg" loading="lazy" decoding="async" alt="Model with croc bag"></div>
+        <div class="gi dim"><img src="assets/g-model1.jpg" decoding="async" alt="Model in black leather and helmet"></div>
+        <div class="gi"><img src="assets/g-trio.jpg" decoding="async" alt="Three figures in a foggy space"></div>
+        <div class="gi dim"><img src="assets/g-model2.jpg" decoding="async" alt="Model with croc bag"></div>
       </div>
     </div>
 </section>
@@ -566,7 +563,7 @@
     <div class="label" style="color:var(--bonefade)"><span class="ix" style="color:var(--bone)">03</span> — THE FIRST PRODUCT</div>
   </div>
   <div class="fp-flow">
-    <div class="gi rv"><img src="assets/fp-rooftop.jpg" loading="lazy" decoding="async" alt="The first product on a leather sofa"></div>
+    <div class="gi rv"><img src="assets/fp-rooftop.jpg" decoding="async" alt="The first product on a leather sofa"></div>
   </div>
 </section>
 
@@ -748,11 +745,9 @@ const progBar=document.getElementById('progBar'),progPct=document.getElementById
 function frame(){
   const sy=window.scrollY, dh=document.body.scrollHeight-window.innerHeight;
   const gp=clamp(sy/dh,0,1);
-  progBar.style.width=(gp*100)+'%';
-  progPct.textContent=String(Math.round(gp*100)).padStart(2,'0');
 
   // ---- INTRO → S1 : background fades black → white as the composition leaves; hook ink follows ----
-  const introEl=document.getElementById('persona')||document.getElementById('intro');
+  const introEl=document.getElementById('intro');
   const introF=introEl?smooth(0.1,0.95,1-introEl.getBoundingClientRect().bottom/VH()):1;
   const hookEl=document.getElementById('s1hook');
   if(hookEl) hookEl.style.color=mix(BONE,INK,introF);
@@ -776,7 +771,7 @@ function frame(){
   {const partsEl=document.getElementById('parts');
   if(partsEl){
     const r=partsEl.getBoundingClientRect(), p=clamp(-r.top/Math.max(1,partsEl.offsetHeight-VH()),0,1);
-    document.getElementById('ptStage').style.background=mix(BONE,DARK,smooth(0,.16,p));
+    document.getElementById('ptStage').style.background=mix(BONE,'#000000',smooth(0,.16,p));
     document.getElementById('ptHead').style.opacity=smooth(.16,.22,p);
     let cur=0;
     partsEl.querySelectorAll('[data-pt]').forEach((w,i)=>{
@@ -926,7 +921,6 @@ function frame(){
   // progress label
   let cur=sections[0].lbl;
   sections.forEach(s=>{if(s.el&&s.el.getBoundingClientRect().top<=window.innerHeight*0.5)cur=s.lbl;});
-  progLbl.textContent=cur;
   raf=null;
 }
 let raf=null;
