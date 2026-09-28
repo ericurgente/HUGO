@@ -14,9 +14,13 @@
 <meta name="twitter:title" content="ROTO — Hugo López">
 <meta name="twitter:description" content="Wearable armor for a generation worn down by the city.">
 <meta name="twitter:image" content="assets/og-cover.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Archivo+Black&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/BowlbyOne-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="assets/fonts/Goldman-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<style>
+  @font-face{font-family:'Bowlby One';src:url('assets/fonts/BowlbyOne-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Goldman';src:url('assets/fonts/Goldman-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Goldman';src:url('assets/fonts/Goldman-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+</style>
 <style>
   :root{
     --bone:#ffffff;
@@ -24,24 +28,24 @@
     --inkdim:#5b574b;
     --dark:#0e0d0b;
     --bonefade:#a39e90;
-    --font-title:'Anzeige Grotesk','Archivo Black',sans-serif;
-    --font-body:'Archivo',sans-serif;
+    --font-title:'Bowlby One',sans-serif;
+    --font-body:'Goldman',sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Archivo',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;
+  body{font-family:'Goldman',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;overflow-x:hidden}
   #pagebg{position:fixed;inset:0;background:var(--bone);z-index:-2}
   #grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 
-  .mono{font-family:'Space Mono',monospace}
+  .mono{font-family:'Goldman',sans-serif}
   .display{font-family:var(--font-title);line-height:.9;letter-spacing:-.025em;text-transform:uppercase}
 
   /* top chrome */
   .chrome{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;
     align-items:center;padding:20px 32px;mix-blend-mode:difference;color:#fff}
   .chrome .wm{height:28px;width:auto;display:block}
-  .chrome .meta{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+  .chrome .meta{font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase}
   .chrome .meta .namelink{position:relative;display:inline-block;color:inherit;text-decoration:none;cursor:pointer}
   .chrome .meta .namelink::before{content:"";position:absolute;inset:-22px -30px}
   .chrome .meta .namelink .nm{border-bottom:1px solid transparent;transition:opacity .25s,border-color .25s}
@@ -51,11 +55,11 @@
   .chrome .meta .namelink:hover .em{opacity:1}
   .chrome .meta .namelink:hover .role{opacity:0}
   .prog{position:fixed;left:32px;bottom:26px;z-index:200;display:flex;align-items:center;gap:12px;
-    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;mix-blend-mode:difference;color:#fff}
+    font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.12em;mix-blend-mode:difference;color:#fff}
   .prog .bar{width:110px;height:1px;background:rgba(255,255,255,.35);position:relative}
   .prog .bar i{position:absolute;left:0;top:0;height:100%;width:0;background:#fff}
 
-  .label{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--inkdim)}
+  .label{font-family:'Goldman',sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--inkdim)}
   .label .ix{font-weight:700}
 
   .stage{position:sticky;top:0;height:100vh;overflow:hidden}
@@ -73,13 +77,85 @@
   .in-text{position:absolute;left:0;bottom:44px;writing-mode:vertical-rl;transform:rotate(180deg);opacity:0;
     font-family:var(--font-body);font-weight:500;font-size:clamp(10px,1.4vh,13px);letter-spacing:.16em;text-transform:uppercase;color:#fff;white-space:nowrap}
 
+  /* ===== CONTEXT (6a) · slit opens the photo and splits the statement ===== */
+  #ctx{position:relative;height:240vh;background:#fff}
+  #ctx .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#fff}
+  .cx-head{position:absolute;left:2.4vw;right:2.4vw;top:32px;display:flex;justify-content:space-between;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);padding-bottom:10px;border-bottom:1px solid var(--ink)}
+  .cx-slit{position:absolute;left:50%;top:80px;bottom:36px;width:1px;overflow:hidden;background:var(--ink);transform:translateX(-50%)}
+  .cx-slit img{position:absolute;left:50%;top:0;height:100%;width:auto;max-width:none;transform:translateX(-50%)}
+  .cx-t{position:absolute;width:min(25vw,360px);margin:0;font-family:var(--font-body);font-weight:500;font-size:clamp(20px,2.35vw,34px);line-height:1.08;letter-spacing:-.015em;color:var(--ink);text-wrap:pretty}
+  .cx-l{left:2.4vw;bottom:36px}
+  .cx-r{right:2.4vw;top:80px}
+  @media (max-width:820px){
+    .cx-slit{top:30vh;bottom:22vh}
+    .cx-t{width:auto;left:2.4vw;right:2.4vw;font-size:clamp(18px,5vw,24px)}
+    .cx-r{top:80px}.cx-l{bottom:36px}
+    .cx-l{top:auto}
+  }
+  /* ===== PARTS (7b) · white → black, one stretched word at a time ===== */
+  #parts{position:relative;height:320vh}
+  #parts .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#fff}
+  .pt-head{position:absolute;left:2.4vw;right:2.4vw;top:32px;display:flex;justify-content:space-between;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;opacity:0}
+  .pt-w{position:absolute;left:2.4vw;right:2.4vw;top:64px;bottom:36px;overflow:hidden;opacity:0}
+  .pt-w div{width:max-content;white-space:nowrap;transform-origin:0 0;font-family:'Bowlby One',sans-serif;font-weight:400;font-size:100px;line-height:.8;text-transform:uppercase;color:#fff}
+
+  /* ===== ROTO INDEX (8d) · list → sections with sticky side index ===== */
+  #rindex{position:relative;background:#0b0b0b;color:#fff}
+  .ri-menu{min-height:100vh;min-height:100svh;padding:16vh 2.4vw 10vh;display:flex;flex-direction:column;justify-content:center;max-width:1100px;margin:0 auto}
+  .ri-kicker{font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);padding-bottom:16px}
+  .ri-row{display:flex;align-items:baseline;gap:28px;padding:14px 0 12px;border-top:1px solid rgba(255,255,255,.2);color:#fff;text-decoration:none;transition:padding-left .3s ease}
+  .ri-row:hover{padding-left:14px;color:#fff}
+  .ri-row .n{font-family:'Goldman',sans-serif;font-size:12px;letter-spacing:.08em;color:rgba(255,255,255,.55);width:24px;flex:none}
+  .ri-row .t{font-family:'Bowlby One',sans-serif;font-size:clamp(30px,4vw,56px);line-height:1;text-transform:uppercase}
+  .ri-end{border-top:1px solid rgba(255,255,255,.2)}
+  .ri-sec{padding:14vh 8vw 18vh calc(2.4vw + 260px);display:flex;flex-direction:column;gap:5vh}
+  .ri-big{display:flex;align-items:flex-end;gap:24px;border-top:1px solid rgba(255,255,255,.2);padding-top:16px}
+  .ri-big .n{font-family:'Goldman',sans-serif;font-size:12px;letter-spacing:.08em;color:rgba(255,255,255,.55);padding-bottom:1vw}
+  .ri-big .t{font-family:'Bowlby One',sans-serif;font-size:clamp(44px,7vw,112px);line-height:.9;text-transform:uppercase;color:#fff}
+  .ri-ph{height:70vh;border:1px solid rgba(255,255,255,.14);display:flex;align-items:flex-end;padding:14px;font-family:'Goldman',sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+  .ri-side{position:fixed;left:2.4vw;top:110px;z-index:120;display:flex;flex-direction:column;gap:12px;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:0;pointer-events:none;transition:opacity .35s}
+  .ri-side.on{opacity:1;pointer-events:auto}
+  .ri-side a{display:flex;gap:10px;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s,transform .3s}
+  .ri-side a:hover{color:#fff}
+  .ri-side a.cur{color:#fff;transform:translateX(8px)}
+  @media (max-width:820px){
+    .ri-sec{padding:12vh 2.4vw 14vh}
+    .ri-side{top:auto;bottom:22px;left:2.4vw;right:2.4vw;flex-direction:row;flex-wrap:wrap;gap:6px 14px}
+    .ri-side a .st{display:none}.ri-side a.cur .st{display:inline}
+  }
+
+  /* ===== PERSONA · rotated spikes portrait, outline word + pinned tags ===== */
+  #persona{position:relative;height:320vh;background:#000}
+  #persona .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#000}
+  .ps-img{position:absolute;left:50%;top:50%;width:100vh;height:100vw;object-fit:cover;transform:translate(-50%,-50%) rotate(90deg);}
+  .ps-fit{position:absolute;left:2.4vw;right:2.4vw;top:64px;bottom:40px;overflow:hidden}
+  .ps-word{width:max-content;white-space:nowrap;transform-origin:0 0;font-family:'Bowlby One',sans-serif;font-size:100px;line-height:.8;text-transform:uppercase;color:#fff}
+  .ps-head{position:absolute;left:2.4vw;right:2.4vw;top:28px;display:flex;justify-content:space-between;font-family:'Goldman',sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#fff;z-index:2}
+  .ps-tags{position:absolute;inset:0;pointer-events:none}
+  .ps-title{position:absolute;left:2.4vw;right:2.4vw;bottom:30px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 22px;font-family:'Bowlby One',sans-serif;font-size:clamp(36px,5vw,72px);line-height:.9;text-transform:uppercase;color:#fff;z-index:2}
+  .ps-fl{font-family:'Goldman',sans-serif;font-size:clamp(12px,1.1vw,16px);letter-spacing:.2em;line-height:1;padding-bottom:.55em}
+  .ps-dec{margin-bottom:.35em;background:#fff;color:#0b0b0b;padding:5px 10px;font-family:'Goldman',sans-serif;font-weight:700;font-size:clamp(13px,1.2vw,18px);letter-spacing:.16em;line-height:1.1;min-width:14ch}
+  .ps-tag{position:absolute;display:flex;align-items:center;gap:8px;font-family:'Goldman',sans-serif;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#0b0b0b;white-space:nowrap}
+  .ps-tag .dot{width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff}
+  .ps-tag .ln{width:40px;height:1px;background:#fff}
+  .ps-tag .lb{background:#fff;padding:3px 7px}
+  /* ===== ROTO WORLD GALLERY · vertical scroll drives a horizontal track ===== */
+  #rgal{position:relative;height:420vh;background:#0b0b0b}
+  #rgal .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+  .rg-head{position:absolute;left:calc(2.4vw + 260px);right:2.4vw;top:26px;display:flex;justify-content:space-between;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;z-index:2}
+  .rg-track{position:absolute;left:0;top:80px;bottom:60px;display:flex;gap:24px;padding-left:calc(2.4vw + 260px);padding-right:2.4vw;will-change:transform}
+  .rg-track figure{margin:0;height:100%;flex:none;display:flex;flex-direction:column;gap:10px}
+  .rg-track img,.rg-track video{height:calc(100% - 26px);width:auto;display:block;background:#1a1a1a}
+  .rg-track figcaption{display:flex;justify-content:space-between;gap:24px;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+  @media (max-width:820px){.rg-head{left:2.4vw}.rg-track{padding-left:2.4vw;top:70px;bottom:90px}}
+
   /* ===== S1 (hero hook, then ONE pinned stage: young+city fixed, wired+crowd rise in, then lines) ===== */
   #s1{position:relative;padding:0}
   .s1-hookwrap{height:200vh;position:relative}
   .s1-hook{height:100vh;height:100svh;margin:0;padding:2.4vw;overflow:hidden;position:sticky;top:0;z-index:2;color:var(--bone)}
   .s1-hook .w{font-style:normal;opacity:0}
   .s1-hook .hk{display:block;transform-origin:0 0;will-change:transform}
-  .s1-hook .hk span{display:block;width:max-content;white-space:nowrap;font-family:'Archivo',sans-serif;font-weight:900;font-stretch:62.5%;
+  .s1-hook .hk span{display:block;width:max-content;white-space:nowrap;font-family:'Bowlby One',sans-serif;font-weight:400;
     text-transform:uppercase;line-height:.8;letter-spacing:-.01em;font-size:100px}
   .s1-track{position:relative;height:260vh;margin-top:0}
   .s1-stage{position:sticky;top:0;height:100vh;overflow:hidden}
@@ -96,7 +172,7 @@
   .s1-img{position:absolute;top:8vh;right:11vw;width:44vw;height:auto;filter:grayscale(1) contrast(1.04);z-index:4}
   /* rising pair (translateY driven by scroll) */
   .s1-wired{position:absolute;top:34vh;left:7vw;width:34vw;text-align:left;z-index:6;
-    font-family:var(--font-title);font-weight:800;line-height:1.08;letter-spacing:-.02em;
+    font-family:var(--font-title);font-weight:400;line-height:1.08;letter-spacing:-.02em;
     font-size:clamp(22px,2.9vw,44px);will-change:transform}
   .crowd-wrap{display:contents}
   .crowd-bg{position:absolute;top:64vh;left:50%;height:80vh;width:auto;transform:translateX(-50%);
@@ -114,7 +190,7 @@
   .pcard .slot{width:100%;height:100%;
     background:repeating-linear-gradient(135deg,#cdc6b6 0 11px,#c3bcab 11px 22px);
     display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;
-    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#6b6452}
+    font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#6b6452}
   .pcard img{width:100%;height:auto;display:block}
   .pcard .pmedia{position:relative;overflow:hidden;display:block}
   .pcard .blade{position:absolute;top:0;bottom:0;width:3px;background:#e24a5e;opacity:0;pointer-events:none;box-shadow:0 0 16px 2px rgba(226,74,94,.7)}
@@ -166,7 +242,7 @@
   .ft-statement{font-family:var(--font-body);font-weight:500;font-size:clamp(22px,2.8vw,42px);line-height:1.32;letter-spacing:.005em;max-width:22ch}
   .ft-statement .em{color:var(--bonefade)}
   .ft-rule{height:1px;background:rgba(231,225,212,.13);margin:8vh 0 4vh}
-  .ft-contact{display:flex;flex-wrap:wrap;gap:14px 30px;align-items:baseline;font-family:'Space Mono',monospace}
+  .ft-contact{display:flex;flex-wrap:wrap;gap:14px 30px;align-items:baseline;font-family:'Goldman',sans-serif}
   .ft-name{color:var(--bone);text-transform:uppercase;letter-spacing:.16em;font-size:12px}
   .ft-contact a{color:var(--bonefade);text-decoration:none;text-transform:uppercase;letter-spacing:.12em;font-size:12px;border-bottom:1px solid transparent;padding-bottom:2px;transition:color .2s,border-color .2s}
   .ft-contact a:hover{color:var(--bone);border-color:var(--bone)}
@@ -186,12 +262,12 @@
     100%{transform:translate(0,0);filter:none;clip-path:none;opacity:.9}
   }
   .ft-colophon{display:flex;flex-direction:column;gap:16px;max-width:780px}
-  .ft-co-meta{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone)}
+  .ft-co-meta{font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone)}
   .ft-credits{display:flex;flex-direction:column;border-top:1px solid rgba(231,225,212,.14)}
   .ft-credits .row{display:grid;grid-template-columns:1fr auto;gap:10px 48px;align-items:baseline;padding:9px 0;border-bottom:1px solid rgba(231,225,212,.08)}
-  .ft-credits dt{margin:0;font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:#7d7666}
+  .ft-credits dt{margin:0;font-family:'Goldman',sans-serif;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:#7d7666}
   .ft-credits dd{margin:0;font-family:var(--font-body);font-weight:500;font-size:14px;color:#7d7666;letter-spacing:.01em;text-align:right}
-  .ft-copyright{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:#6f6857}
+  .ft-copyright{font-family:'Goldman',sans-serif;font-size:10.5px;letter-spacing:.08em;color:#6f6857}
   @media(max-width:640px){.ft-credits .row{grid-template-columns:1fr;gap:3px}.ft-credits dd{text-align:left}}
   /* full-screen looping ROTO film with a mark sweeping over it */
   #rotofilm{position:relative;background:#000}
@@ -199,7 +275,7 @@
   #rotofilm video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
   .cross-img{position:absolute;top:50%;left:50%;width:56vw;height:auto;will-change:transform;z-index:5;mix-blend-mode:difference}
 
-  .softhint{position:fixed;right:7vw;bottom:28px;z-index:150;font-family:'Space Mono',monospace;
+  .softhint{position:fixed;right:7vw;bottom:28px;z-index:150;font-family:'Goldman',sans-serif;
     font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--inkdim);display:flex;flex-direction:column;align-items:center;gap:7px}
   .softhint .ln{width:1px;height:24px;background:currentColor;animation:drop 1.7s infinite}
   @keyframes drop{0%{transform:scaleY(0);transform-origin:top}48%{transform:scaleY(1);transform-origin:top}52%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
@@ -293,7 +369,7 @@
 
 <div class="chrome">
   <div style="display:flex;align-items:center;gap:22px">
-    <a href="index.html#menu" style="color:inherit;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid transparent;padding-bottom:2px" onmouseover="this.style.borderColor='currentColor'" onmouseout="this.style.borderColor='transparent'">Menu</a>
+    <a href="index.html#menu" style="color:inherit;text-decoration:none;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid transparent;padding-bottom:2px" onmouseover="this.style.borderColor='currentColor'" onmouseout="this.style.borderColor='transparent'">Menu</a>
   </div>
   <div class="meta"><a class="namelink" href="mailto:hugolgromero@gmail.com"><span class="nm">HUGO LÓPEZ</span><span class="em">✉&nbsp;HUGOLGROMERO@GMAIL.COM</span><span class="role">&nbsp;· BRAND STRATEGIST</span></a></div>
 </div>
@@ -309,9 +385,94 @@
   </div>
 </section>
 
+<!-- ===================== PERSONA ===================== -->
+<section id="persona" aria-label="Roto persona: fear, stress, rage, overstimulation, anxiety, isolation, loneliness, mistrust">
+  <div class="stage">
+    <img class="ps-img" src="assets/roto-persona-spikes.jpg" alt="Face covered in metal pins">
+    <div class="ps-title"><span>Roto persona</span><span class="ps-fl">flooded with</span><span class="ps-dec" id="psDec">Fear</span></div>
+  </div>
+</section>
+
 <!-- ===================== SECTION 1 · LA TENSIÓN ===================== -->
 <section id="s1">
   <div class="s1-hookwrap" id="s1hookwrap"><h1 class="s1-hook" id="s1hook" aria-label="An exoskeleton to survive the city"><span class="hk" id="s1hk"><span><i class="w">An</i> <i class="w">exoskeleton</i></span><span><i class="w">to</i> <i class="w">survive</i></span><span><i class="w">the</i> <i class="w">city</i></span></span></h1></div>
+</section>
+
+<!-- ===================== CONTEXT ===================== -->
+<section id="ctx">
+  <div class="stage">
+    <div class="cx-head"><span>Roto</span><span>Context</span></div>
+    <div class="cx-slit" id="cxSlit"><img src="assets/roto-context-smoke.jpg" alt="Veiled figure smoking on a rooftop ledge"></div>
+    <p class="cx-t cx-l">ROTO is a hardware and accessories brand born from a shared struggle:</p>
+    <p class="cx-t cx-r">the emotional exhaustion of surviving a city while navigating your very own circumstances</p>
+  </div>
+</section>
+
+<!-- ===================== PARTS ===================== -->
+<section id="parts" aria-label="Armour, ritual, community">
+  <div class="stage" id="ptStage">
+    <div class="pt-head" id="ptHead"><span>Part</span><span id="ptNum">01 / 03</span></div>
+    <div class="pt-w" data-pt="0"><div>Armour</div></div>
+    <div class="pt-w" data-pt="1"><div>Ritual</div></div>
+    <div class="pt-w" data-pt="2"><div>Community</div></div>
+  </div>
+</section>
+
+<!-- ===================== ROTO INDEX ===================== -->
+<section id="rindex">
+  <div class="ri-menu">
+    <div class="ri-kicker">Roto — Index</div>
+    <a class="ri-row" href="#ri-0" data-ri-go="0"><span class="n">01</span><span class="t">The tension</span></a>
+    <a class="ri-row" href="#ri-1" data-ri-go="1"><span class="n">02</span><span class="t">The brand</span></a>
+    <a class="ri-row" href="#ri-2" data-ri-go="2"><span class="n">03</span><span class="t">The system</span></a>
+    <a class="ri-row" href="#ri-3" data-ri-go="3"><span class="n">04</span><span class="t">The campaign</span></a>
+    <a class="ri-row" href="#ri-4" data-ri-go="4"><span class="n">05</span><span class="t">Roto world</span></a>
+    <div class="ri-end"></div>
+  </div>
+  <div class="ri-sec" id="ri-0" data-ri-sec="0">
+    <div class="ri-big"><span class="n">01</span><span class="t">The tension</span></div>
+    <div class="ri-ph">Contenido pendiente</div>
+  </div>
+  <div class="ri-sec" id="ri-1" data-ri-sec="1">
+    <div class="ri-big"><span class="n">02</span><span class="t">The brand</span></div>
+    <div class="ri-ph">Contenido pendiente</div>
+  </div>
+  <div class="ri-sec" id="ri-2" data-ri-sec="2">
+    <div class="ri-big"><span class="n">03</span><span class="t">The system</span></div>
+    <div class="ri-ph">Contenido pendiente</div>
+  </div>
+  <div class="ri-sec" id="ri-3" data-ri-sec="3">
+    <div class="ri-big"><span class="n">04</span><span class="t">The campaign</span></div>
+    <div class="ri-ph">Contenido pendiente</div>
+  </div>
+  <div class="ri-sec" id="ri-4" data-ri-sec="4">
+    <div class="ri-big"><span class="n">05</span><span class="t">Roto world</span></div>
+  </div>
+  <div id="rgal">
+    <div class="stage">
+      <div class="rg-head"><span>05 — Roto world · Archive</span><span id="rgNum">01 / 08</span></div>
+      <div class="rg-track" id="rgTrack">
+        <figure><video src="assets/roto-g-rooftop.mp4" muted autoplay loop playsinline></video><figcaption><span>01</span><span>Rooftop</span></figcaption></figure>
+        <figure><img src="assets/roto-g-silhouettes.jpg" alt="Roto — Silhouettes" loading="lazy"><figcaption><span>02</span><span>Silhouettes</span></figcaption></figure>
+        <figure><img src="assets/roto-g-fog.jpg" alt="Roto — Fog" loading="lazy"><figcaption><span>03</span><span>Fog</span></figcaption></figure>
+        <figure><img src="assets/roto-g-bag.jpg" alt="Roto — Spiked bag" loading="lazy"><figcaption><span>04</span><span>Spiked bag</span></figcaption></figure>
+        <figure><img src="assets/g-trio.jpg" alt="Roto — Trio" loading="lazy"><figcaption><span>05</span><span>Trio</span></figcaption></figure>
+        <figure><img src="assets/g-bullbag.jpg" alt="Roto — Bull bag" loading="lazy"><figcaption><span>06</span><span>Bull bag</span></figcaption></figure>
+        <figure><img src="assets/g-install.jpg" alt="Roto — Install" loading="lazy"><figcaption><span>07</span><span>Install</span></figcaption></figure>
+        <figure><img src="assets/g-figures.jpg" alt="Roto — Figures" loading="lazy"><figcaption><span>08</span><span>Figures</span></figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+<nav class="ri-side" id="riSide" aria-label="Roto sections">
+  <a href="#ri-0" data-ri-go="0"><span>01</span><span class="st">The tension</span></a>
+  <a href="#ri-1" data-ri-go="1"><span>02</span><span class="st">The brand</span></a>
+  <a href="#ri-2" data-ri-go="2"><span>03</span><span class="st">The system</span></a>
+  <a href="#ri-3" data-ri-go="3"><span>04</span><span class="st">The campaign</span></a>
+  <a href="#ri-4" data-ri-go="4"><span>05</span><span class="st">Roto world</span></a>
+</nav>
+
+<section id="s1b" style="position:relative">
   <div class="s1-track">
     <div class="s1-stage">
       <div class="s1-inner" id="s1inner">
@@ -575,7 +736,7 @@ function worldScrollReveal(){worldGi.forEach(el=>{if(!el.classList.contains('in'
 setTimeout(()=>worldGi.forEach(el=>{if(!el.classList.contains('in')&&el.getBoundingClientRect().top<window.innerHeight)revealGi(el);}),2500);
 
 const sections=[
-  {el:document.getElementById('s1'),lbl:'THE SYMPTOM'},
+  {el:document.getElementById('s1b'),lbl:'THE SYMPTOM'},
   {el:document.getElementById('pat'),lbl:'THE PATTERN'},
   {el:document.getElementById('sym'),lbl:'WEARABLE ARMOR'},
   {el:document.getElementById('world'),lbl:'THE ROTO WORLD'},
@@ -591,7 +752,7 @@ function frame(){
   progPct.textContent=String(Math.round(gp*100)).padStart(2,'0');
 
   // ---- INTRO → S1 : background fades black → white as the composition leaves; hook ink follows ----
-  const introEl=document.getElementById('intro');
+  const introEl=document.getElementById('persona')||document.getElementById('intro');
   const introF=introEl?smooth(0.1,0.95,1-introEl.getBoundingClientRect().bottom/VH()):1;
   const hookEl=document.getElementById('s1hook');
   if(hookEl) hookEl.style.color=mix(BONE,INK,introF);
@@ -603,16 +764,62 @@ function frame(){
     ws.forEach((w,i)=>{const s=i*(.88/(n-1)),e=s+.12;w.style.opacity=smooth(s,e,hp).toFixed(3);});
   }
 
+  // ---- CONTEXT : slit opens ----
+  {const ctxEl=document.getElementById('ctx');
+  if(ctxEl){
+    const r=ctxEl.getBoundingClientRect(), p=clamp(-r.top/Math.max(1,ctxEl.offsetHeight-VH()),0,1);
+    const sl=document.getElementById('cxSlit'), img=sl.querySelector('img');
+    const full=Math.min((img.naturalWidth&&img.naturalHeight)?sl.clientHeight*img.naturalWidth/img.naturalHeight:sl.clientHeight*2/3, window.innerWidth*(MOBILE?.7:.42));
+    sl.style.width=lerp(1,full,smooth(.05,.75,p))+'px';
+  }}
+  // ---- PARTS : white → black, words one at a time ----
+  {const partsEl=document.getElementById('parts');
+  if(partsEl){
+    const r=partsEl.getBoundingClientRect(), p=clamp(-r.top/Math.max(1,partsEl.offsetHeight-VH()),0,1);
+    document.getElementById('ptStage').style.background=mix(BONE,DARK,smooth(0,.16,p));
+    document.getElementById('ptHead').style.opacity=smooth(.16,.22,p);
+    let cur=0;
+    partsEl.querySelectorAll('[data-pt]').forEach((w,i)=>{
+      const a=.2+i*.26, inn=smooth(a,a+.08,p), out=i<2?smooth(a+.2,a+.26,p):0;
+      w.style.opacity=inn*(1-out); w.style.clipPath=`inset(${(1-inn)*100}% 0 0 0)`;
+      if(p>=a)cur=i;
+    });
+    document.getElementById('ptNum').textContent=`0${cur+1} / 03`;
+  }}
+
+  // ---- ROTO INDEX : side index shows current section ----
+  {const ri=document.getElementById('rindex'), side=document.getElementById('riSide');
+  if(ri&&side){
+    const secs=ri.querySelectorAll('[data-ri-sec]'), H=VH();
+    const rr=ri.getBoundingClientRect();
+    let c=-1; secs.forEach((s,i)=>{if(s.querySelector('.ri-big').getBoundingClientRect().top<H*.25)c=i;});
+    const inside=c>=0&&rr.bottom>H*.4;
+    side.classList.toggle('on',inside);
+    side.querySelectorAll('a').forEach((a,i)=>a.classList.toggle('cur',i===c));
+  }}
+
+  // ---- ROTO WORLD GALLERY ----
+  {const g=document.getElementById('rgal'), tr=document.getElementById('rgTrack');
+  if(g&&tr){
+    const r=g.getBoundingClientRect(), p=clamp(-r.top/Math.max(1,g.offsetHeight-VH()),0,1);
+    const max=Math.max(0,tr.scrollWidth-window.innerWidth);
+    tr.style.transform=`translateX(${-p*max}px)`;
+    let c=0; tr.querySelectorAll('figure').forEach((f,k)=>{if(f.getBoundingClientRect().left<window.innerWidth*.5)c=k;});
+    document.getElementById('rgNum').textContent=`0${c+1} / 0${tr.children.length}`;
+  }}
+
   // ---- INTRO : logo rides up with the photo, rotates 90° beside the side photo, holds, then all scrolls up ----
   const intro=document.getElementById('intro');
   if(intro){
     const W=window.innerWidth,H=VH();
     const p=clamp(-intro.getBoundingClientRect().top/(H*2.5),0,1);
-    const LW=Math.min(W*0.265,H*0.425), LH=LW*638/1400, s=0.94;
+    const LW=Math.min(W*0.265,H*0.425), LH=LW*638/1400, s=0.8;
     const lg=document.getElementById('inLogo'), tx=document.getElementById('inText');
     document.getElementById('inHero').style.transform=`translateY(${-smooth(0,.45,p)*100}%)`;
     const t=smooth(.06,.55,p), arc=Math.sin(Math.PI*t)*H*0.11;
-    const ex=W*0.4375-W*0.031-LH*s/2, ey=H*0.33;
+    const panelW=W>820?W*0.4375:W, ex=panelW/2;
+    const tH=tx.offsetHeight||200, gap=Math.max(28,H*0.045), grp=LW*s+gap+tH;
+    const gTop=(H-grp)/2, ey=gTop+LW*s/2;
     const x=lerp(W/2,ex,t)-LW/2, y=lerp(H/2,ey,t)-LH/2-arc;
     lg.style.width=LW+'px';
     lg.style.transform=`translate(${x}px,${y}px) rotate(${-90*t}deg) scale(${lerp(1,s,t)})`;
@@ -620,6 +827,7 @@ function frame(){
     document.getElementById('inSide').style.transform=`translateY(${(1-smooth(.34,.74,p))*100}%)`;
     const tt=smooth(.7,.9,p);
     tx.style.left=(ex-tx.offsetWidth/2)+'px';
+    tx.style.top=(gTop+LW*s+gap)+'px'; tx.style.bottom='auto';
     tx.style.opacity=tt;
     tx.style.translate=`0 ${(1-tt)*24}px`;
   }
@@ -724,6 +932,28 @@ function frame(){
 let raf=null;
 function onScroll(){if(!raf)raf=requestAnimationFrame(frame);}
 window.__frame=frame;
+(function(){
+  const W=['Fear','Stress','Rage','Overstimulation','Anxiety','Isolation','Loneliness','Mistrust'],N=W.length;
+  const sec=document.getElementById('persona'), word=document.getElementById('psWord'), tags=document.getElementById('psTags'), num=document.getElementById('psNum');
+  if(!sec)return;
+  const fit=()=>{if(!word)return;const box=word.parentElement;if(!box.clientWidth)return;word.style.transform='none';word.style.fontSize='100px';word.style.fontSize=(100*box.clientWidth/(word.getBoundingClientRect().width||1))+'px';word.style.transform=`scaleY(${box.clientHeight/(word.offsetHeight||1)})`;};
+  let li=-1,lt=0;
+  const loop=now=>{
+    const r=sec.getBoundingClientRect(), vis=r.top<VH()&&r.bottom>0;
+    if(vis){
+      const i=Math.floor(now/560)%N;
+      
+      const dec=document.getElementById('psDec');if(dec){const per=1400,k=Math.floor(now/per)%N,f=(now%per)/per,w=W[k].toUpperCase(),n=Math.floor(Math.min(1,f/.55)*w.length),CH='ABCDEFGHIJKLMNOPQRSTUVWXYZ#/%&01';dec.textContent=w.slice(0,n)+[...w.slice(n)].map(()=>CH[Math.floor(Math.random()*CH.length)]).join('');}
+    }
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+  window.addEventListener('resize',fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+})();
+document.querySelectorAll('[data-ri-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const s=document.getElementById('ri-'+a.dataset.riGo);if(s)window.scrollTo({top:s.getBoundingClientRect().top+window.scrollY-60,behavior:'smooth'});}));
+function fitParts(){document.querySelectorAll('.pt-w').forEach(w=>{if(!w.clientWidth)return;const d=w.firstElementChild;d.style.transform='none';d.style.fontSize='100px';d.style.fontSize=(100*w.clientWidth/(d.getBoundingClientRect().width||1))+'px';d.style.transform=`scaleY(${w.clientHeight/(d.offsetHeight||1)})`;});}
+fitParts();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitParts);
+window.addEventListener('resize',fitParts);setTimeout(fitParts,600);
 // hook: each line fills the width, then the block stretches vertically to fill the screen
 function fitHook(){
   const box=document.getElementById('s1hook'), hk=document.getElementById('s1hk'); if(!box||!hk)return;
