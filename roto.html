@@ -112,6 +112,15 @@
   .ri-big{display:flex;align-items:flex-end;gap:24px;border-top:1px solid rgba(255,255,255,.2);padding-top:16px}
   .ri-big .n{font-family:'Goldman',sans-serif;font-size:12px;letter-spacing:.08em;color:rgba(255,255,255,.55);padding-bottom:1vw}
   .ri-big .t{font-family:'Bowlby One',sans-serif;font-size:clamp(44px,7vw,112px);line-height:.9;text-transform:uppercase;color:#fff}
+  #tension{position:relative;height:260vh;background:#000}
+  #tension .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#000}
+  .tz-bd{position:absolute;left:0;bottom:0;width:100vw;height:52vw;will-change:transform}
+  .tz-bd img{position:absolute;left:50%;top:50%;width:52vw;height:100vw;object-fit:cover;transform:translate(-50%,-50%) rotate(-90deg);max-width:none}
+  .tz-tx{position:absolute;left:2.4vw;top:0;width:95.2vw;margin:0;transform-origin:0 0;font-family:'Bowlby One',sans-serif;font-size:clamp(30px,5.1vw,84px);line-height:1;text-transform:uppercase;color:#fff;text-wrap:balance;will-change:transform}
+  .tn-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4vw;align-items:end}
+  .tn-text{margin:0;align-self:start;font-family:'Goldman',sans-serif;font-size:clamp(20px,2.1vw,32px);line-height:1.25;color:#fff;text-wrap:pretty;max-width:22ch}
+  .tn-img{width:100%;height:auto;display:block;-webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent)}
+  @media (max-width:820px){.tn-wrap{grid-template-columns:1fr}}
   .ri-ph{height:70vh;border:1px solid rgba(255,255,255,.14);display:flex;align-items:flex-end;padding:14px;font-family:'Goldman',sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.4)}
   .ri-side{position:fixed;left:2.4vw;top:110px;z-index:120;display:flex;flex-direction:column;gap:12px;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:0;pointer-events:none;transition:opacity .35s}
   .ri-side.on{opacity:1;pointer-events:auto}
@@ -423,7 +432,12 @@
   </div>
   <div class="ri-sec" id="ri-0" data-ri-sec="0">
     <div class="ri-big"><span class="n">01</span><span class="t">The tension</span></div>
-    <div class="ri-ph">Contenido pendiente</div>
+  </div>
+  <div id="tension">
+    <div class="stage">
+      <div class="tz-bd" id="tzBd"><img src="assets/roto-tower.jpg" alt="Tower at night, seen from below"></div>
+      <p class="tz-tx" id="tzTx">Raving subculture transfigured industrial ruins into sanctuaries, and factories into cathedrals, another way of finding beauty in the traditionally ugly</p>
+    </div>
   </div>
   <div class="ri-sec" id="ri-1" data-ri-sec="1">
     <div class="ri-big"><span class="n">02</span><span class="t">The brand</span></div>
@@ -801,6 +815,15 @@ function frame(){
     tr.style.transform=`translateX(${-p*max}px)`;
     let c=0; tr.querySelectorAll('figure').forEach((f,k)=>{if(f.getBoundingClientRect().left<window.innerWidth*.5)c=k;});
     document.getElementById('rgNum').textContent=`0${c+1} / 0${tr.children.length}`;
+  }}
+
+  // ---- TENSION : phrase alone, then shrinks to the sky as the tower rises ----
+  {const tz=document.getElementById('tension');
+  if(tz){
+    const r=tz.getBoundingClientRect(), p=clamp(-r.top/Math.max(1,tz.offsetHeight-VH()),0,1), H=VH();
+    const tx=document.getElementById('tzTx'), h=tx.offsetHeight, k=smooth(.18,.62,p);
+    tx.style.transform=`translate(0,${lerp((H-h)/2,40,k)}px) scale(${lerp(1,.44,k)})`;
+    document.getElementById('tzBd').style.transform=`translateY(${(1-smooth(.24,.8,p))*100}%)`;
   }}
 
   // ---- INTRO : logo rides up with the photo, rotates 90° beside the side photo, holds, then all scrolls up ----

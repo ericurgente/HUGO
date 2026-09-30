@@ -34,9 +34,22 @@
   /* ---------- 01 · la línea ---------- */
   .hero{position:relative;height:100vh;height:100svh;display:flex;align-items:center;overflow:hidden}
   .film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-    filter:grayscale(1) contrast(1.12) brightness(.52);z-index:0}
-  .veil{position:absolute;inset:0;z-index:1;pointer-events:none;
-    background:radial-gradient(120% 90% at 50% 50%,rgba(11,11,11,.32) 0%,rgba(11,11,11,.82) 100%)}
+    z-index:0}
+  .veil{display:none}
+  #hero.hero{display:block;height:200vh;height:200svh;overflow:visible;background:var(--dark)}
+  .hs{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;isolation:isolate;background:var(--dark)}
+  .hs .film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:none;will-change:filter}
+  .hg,.hw{position:absolute;left:47%;top:47%;transform:translate(-50%,-50%);font-family:'Bowlby One',sans-serif;font-size:18.6vw;line-height:1;white-space:nowrap;color:#fff}
+  .hg{mix-blend-mode:difference}
+  .hw{opacity:0;transform-origin:0 0;will-change:transform,opacity}
+  .hwin{position:absolute;inset:0;width:100%;height:100%;clip-path:inset(100% 0 0 0)}
+  #hmt{font-family:'Bowlby One',sans-serif}
+  .hhint{position:absolute;left:40px;right:40px;bottom:28px;display:flex;justify-content:space-between;font-family:var(--fm);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#fff;mix-blend-mode:difference}
+  .menu .lbl,.menu .idx a,.menu .contact{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .menu.in .lbl,.menu.in .idx a,.menu.in .contact{opacity:1;transform:none}
+  .menu.in .idx a:nth-child(1){transition-delay:.08s}.menu.in .idx a:nth-child(2){transition-delay:.16s}.menu.in .idx a:nth-child(3){transition-delay:.24s}.menu.in .contact{transition-delay:.34s}
+  @font-face{font-family:'Goldman';src:url('assets/fonts/Goldman-Regular.ttf') format('truetype')}
+  @font-face{font-family:'Bowlby One';src:url('assets/fonts/BowlbyOne-Regular.ttf') format('truetype')}
   .rule{position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,.28);z-index:2}
   .line{position:relative;z-index:2;white-space:nowrap;display:flex;text-transform:uppercase;font-weight:600;
     font-size:clamp(64px,15vw,230px);line-height:1;letter-spacing:-.02em;
@@ -94,15 +107,13 @@
   </div>
 </nav>
 
-<section class="hero">
-  <video class="film" id="film" src="assets/landing-street.mp4" autoplay muted playsinline preload="auto" aria-hidden="true"></video>
-  <div class="veil"></div>
-  <div class="rule"></div>
-  <div class="line">
-    <span>Brand</span><span><em>Culture</em></span><span>Strategy</span><span><em>Sound</em></span>
-    <span>Brand</span><span><em>Culture</em></span><span>Strategy</span><span><em>Sound</em></span>
+<section class="hero" id="hero">
+  <div class="hs">
+    <img class="film" id="film" src="assets/landing-hugo.jpg" alt="Hugo">
+    <div class="hg" id="hg">HUGO</div>
+    <svg class="hwin" id="hwin" aria-hidden="true"><defs><mask id="hmask"><rect id="hmr" fill="#fff"></rect><text id="hmt" text-anchor="middle" dominant-baseline="central" fill="#000">HUGO</text></mask></defs><rect id="hbr" fill="#0b0b0b" mask="url(#hmask)"></rect></svg>
+    <div class="hhint" id="hhint"><span>hugolopez.me</span><span>Scroll ↓</span></div>
   </div>
-  <a class="ruler" href="#menu" aria-label="Index"></a>
 </section>
 
 <section class="menu" id="menu">
@@ -130,20 +141,31 @@
   document.querySelectorAll('a[href="#menu"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var mm=document.getElementById('menu');scrollTo({top:mm.offsetTop,behavior:'smooth'});});});
   upd();
 
-  /* ping-pong: al terminar rebobina encadenando seeks (un seek por frame de
-     animacion cancelaria el anterior y el decodificador nunca pintaria) */
-  var v=document.getElementById('film'), back=false, STEP=1/15;
-  function step(){
-    if(!back) return;
-    var next=v.currentTime-STEP;
-    if(next<=0.03){ back=false; v.currentTime=0; v.play().catch(function(){}); return; }
-    v.currentTime=next;
+})();
+</script>
+<script>
+(function(){
+  var hero=document.getElementById('hero'),hs=hero.querySelector('.hs'),g=document.getElementById('hg'),win=document.getElementById('hwin'),mr=document.getElementById('hmr'),mt=document.getElementById('hmt'),br=document.getElementById('hbr'),hint=document.getElementById('hhint'),menu=document.getElementById('menu'),sig=document.querySelector('.sig');
+  if(sig)sig.style.transition='opacity .3s';
+  function cl(v,a,b){return Math.max(a,Math.min(b,v))}
+  function sm(a,b,x){var t=cl((x-a)/(b-a),0,1);return t*t*(3-2*t)}
+  var box={};
+  function lay(){var W=hs.clientWidth,H=hs.clientHeight;win.setAttribute('viewBox','0 0 '+W+' '+H);
+    [mr,br].forEach(function(r){r.setAttribute('width',W);r.setAttribute('height',H)});
+    mt.setAttribute('x',W*.47);mt.setAttribute('y',H*.47);mt.setAttribute('font-size',getComputedStyle(g).fontSize);
   }
-  v.addEventListener('seeked',function(){ if(back) step(); });
-  v.addEventListener('ended',function(){
-    back=true; v.pause(); step();
-  });
-  v.play().catch(function(){});
+  var tick=false;
+  function upd(){tick=false;
+    var run=hero.offsetHeight-innerHeight,p=cl(-hero.getBoundingClientRect().top/(run||1),0,1);
+    hint.style.opacity=1-sm(.02,.1,p);
+    var wp=sm(.05,.6,p);g.style.clipPath='inset(0 0 '+(wp*100)+'% 0)';win.style.clipPath='inset('+((1-wp)*100)+'% 0 0 0)';
+    mt.style.fillOpacity=1-sm(.66,.95,p);
+    if(sig)sig.style.opacity=sm(.85,1,p);
+    if(menu){var r=menu.getBoundingClientRect();if(r.top<innerHeight*.7)menu.classList.add('in');else if(r.top>innerHeight)menu.classList.remove('in');}
+  }
+  function all(){lay();upd()}
+  addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});
+  addEventListener('resize',all);all();document.fonts&&document.fonts.ready.then(all);setTimeout(all,600);
 })();
 </script>
 </body>
