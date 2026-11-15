@@ -185,19 +185,19 @@
   .sy-logo img{width:min(52vw,760px);height:auto;display:block}
   .sy-logo p{margin:0;width:min(520px,100%);font-family:'Goldman',sans-serif;font-size:20px;line-height:1.5;color:#fff;text-wrap:pretty}
   @media(max-width:760px){.sy-grid{grid-template-columns:1fr}.sy-col{grid-template-rows:repeat(10,9vw)}.sy-head .ix,.sy-mid{grid-column:1 / -1}}
-  .pb-sub{padding:0 8vw 0 calc(2.4vw + 260px);margin-top:-6vh}
+  .pb-sub{padding:0 8vw;margin-top:-6vh}
   @media (max-width:820px){.pb-sub{padding:0 2.4vw}}
-  .pb-sub span{display:block;font-family:'Goldman',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,40px);line-height:1.15;color:#fff;text-align:left}
+  .pb-sub span{display:block;font-family:'Goldman',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,40px);line-height:1.15;color:#fff;text-align:center}
   .pb-op{height:200vh;position:relative}
   .pb-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center;padding:0 2.4vw}
   .pb-fit{transform-origin:0 50%}
   .pb-fit div,.br-fit div{font-family:'Bowlby One',sans-serif;text-transform:uppercase;color:#fff;width:max-content;white-space:nowrap;line-height:.84;font-size:100px}
   .pb-stats{padding:8vh 2.4vw 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3vw}
-  .pb-stats>div{display:flex;flex-direction:column;gap:18px}
+  .pb-stats>div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px}
   .pb-stats .ix,.ps-list .ix,.pb-cap{font-family:'Goldman',sans-serif;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff}
-  .pb-stats .num{font-family:'Bowlby One',sans-serif;font-size:clamp(64px,11.7vw,170px);line-height:.8;color:#fff;font-variant-numeric:tabular-nums}
+  .pb-stats .num{font-family:'Clash Display',sans-serif;font-weight:700;font-size:clamp(56px,9.6vw,170px);white-space:nowrap;line-height:.8;color:#fff;font-variant-numeric:tabular-nums}
   .pb-stats .cap{font-family:'Goldman',sans-serif;font-size:16px;line-height:1.4;letter-spacing:.04em;color:#fff;max-width:300px}
-  .pb-pre{margin:0;padding:14vh 2.4vw 7vh calc(2.4vw + 260px);max-width:calc(520px + 2.4vw + 260px);box-sizing:content-box;font-family:'Goldman',sans-serif;font-weight:400;font-size:20px;line-height:1.5;color:#fff}
+  .pb-pre{margin:0 auto;padding:8vh 2.4vw 7vh;max-width:820px;text-align:center;box-sizing:content-box;font-family:'Goldman',sans-serif;font-weight:400;font-size:20px;line-height:1.5;color:#fff}
   @media (max-width:820px){.pb-pre{padding-left:2.4vw;max-width:none;box-sizing:border-box}}
   .pb-ban{height:min(47vw,75vh);overflow:hidden}
   .pb-ban img{width:100%;height:100%;object-fit:cover;object-position:50% 72%;display:block}
@@ -225,14 +225,14 @@
   .ps-tag .ln{width:40px;height:1px;background:#fff}
   .ps-tag .lb{background:#fff;padding:3px 7px}
   /* ===== ROTO WORLD GALLERY · vertical scroll drives a horizontal track ===== */
-  #rgal{position:relative;height:420vh;background:transparent}
+  #rgal{position:relative;height:640vh;background:transparent}
   #rgal .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
   .rg-head{position:absolute;left:calc(2.4vw + 260px);right:2.4vw;top:26px;display:flex;justify-content:space-between;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;z-index:2}
-  .rg-track{position:absolute;left:0;top:80px;bottom:60px;display:flex;gap:24px;padding-left:calc(2.4vw + 260px);padding-right:2.4vw;will-change:transform}
+  .rg-track{position:absolute;left:0;top:4vh;bottom:34vh;display:flex;gap:24px;padding-left:calc(2.4vw + 260px);padding-right:2.4vw;will-change:transform}
   .rg-track figure{margin:0;height:100%;flex:none;display:flex;flex-direction:column;gap:10px}
-  .rg-track img,.rg-track video{height:calc(100% - 26px);width:auto;display:block;background:#1a1a1a}
+  .rg-track img,.rg-track video{height:100%;width:auto;display:block;background:#1a1a1a}
   .rg-track figcaption{display:flex;justify-content:space-between;gap:24px;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6)}
-  @media (max-width:820px){.rg-head{left:2.4vw}.rg-track{padding-left:2.4vw;top:70px;bottom:90px}}
+  @media (max-width:820px){.rg-head{left:2.4vw}.rg-track{padding-left:2.4vw;top:18vh;bottom:18vh}}
 
   /* ===== S1 (hero hook, then ONE pinned stage: young+city fixed, wired+crowd rise in, then lines) ===== */
   #s1{position:relative;padding:0}
@@ -602,17 +602,18 @@
   </div>
   <div id="rgal">
     <div class="stage">
-      <div class="rg-head"><span>05, Roto world · Archive</span><span id="rgNum">01 / 09</span></div>
       <div class="rg-track" id="rgTrack">
-        <figure><video src="assets/roto-g-rooftop.mp4" muted autoplay loop playsinline></video><figcaption><span>01</span><span>Rooftop</span></figcaption></figure>
-        <figure><img src="assets/roto-g-silhouettes.jpg" alt="Roto — Silhouettes"><figcaption><span>02</span><span>Silhouettes</span></figcaption></figure>
-        <figure><img src="assets/roto-g-fog.jpg" alt="Roto — Fog"><figcaption><span>03</span><span>Fog</span></figcaption></figure>
-        <figure><img src="assets/roto-g-bag.jpg" alt="Roto — Spiked bag"><figcaption><span>04</span><span>Spiked bag</span></figcaption></figure>
-        <figure><img src="assets/g-trio.jpg" alt="Roto — Trio"><figcaption><span>05</span><span>Trio</span></figcaption></figure>
-        <figure><img src="assets/g-bullbag.jpg" alt="Roto — Bull bag"><figcaption><span>06</span><span>Bull bag</span></figcaption></figure>
-        <figure><img src="assets/g-install.jpg" alt="Roto — Install"><figcaption><span>07</span><span>Install</span></figcaption></figure>
-        <figure><img src="assets/g-figures.jpg" alt="Roto — Figures"><figcaption><span>08</span><span>Figures</span></figcaption></figure>
-        <figure><video src="assets/roto-g-slowmo.mp4" muted autoplay loop playsinline></video><figcaption><span>09</span><span>Slow motion</span></figcaption></figure>
+        <figure><img src="assets/roto-g-silhouettes.jpg" alt="Roto world"></figure>
+        <figure><img src="assets/rw-02.jpg" alt="Roto world"></figure>
+        <figure><img src="assets/g-trio.jpg" alt="Roto world"></figure>
+        <figure><img src="assets/g-bullbag.jpg" alt="Roto world"></figure>
+        <figure><img src="assets/rw-03.jpg" alt="Roto world"></figure>
+        <figure><img src="assets/g-install.jpg" alt="Roto world"></figure>
+        <figure><img src="assets/rw-01.jpg" alt="Roto world"></figure>
+        <figure><img src="assets/roto-g-bag.jpg" alt="Roto world"></figure>
+        <figure><video src="assets/roto-g-slowmo.mp4" muted autoplay loop playsinline></video></figure>
+        <figure><img src="assets/rw-04.jpg" alt="Roto world"></figure>
+        <figure><img src="assets/rw-07.jpg" alt="Roto world"></figure>
       </div>
     </div>
   </div>
@@ -625,7 +626,7 @@
   <a href="#ri-4" data-ri-go="4"><span>05</span><span class="st">Roto world</span></a>
 </nav>
 
-<section id="s1b" style="position:relative">
+<section id="s1b" style="position:relative;display:none">
   <div class="s1-track">
     <div class="s1-stage">
       <div class="s1-inner" id="s1inner">
@@ -642,7 +643,7 @@
 </section>
 
 <!-- ===================== SECTION 2 · THE PATTERN ===================== -->
-<section class="pin" id="pat" style="height:440vh">
+<section class="pin" id="pat" style="height:440vh;display:none">
   <div class="stage">
     <!-- intro -->
     <div class="p-intro will" id="pIntro">
@@ -667,7 +668,7 @@
 </section>
 
 <!-- ===================== SECTION 2b · THE SYMPTOM (fade to dark) ===================== -->
-<section class="pin fadezone" id="sym" style="height:360vh">
+<section class="pin fadezone" id="sym" style="height:360vh;display:none">
   <div class="stage">
     <div class="sym">
       <img class="sym-spark" id="symSpark" src="assets/revo-spark.png" alt="">
@@ -681,7 +682,7 @@
 
 <!-- ===================== SECTION 3 · ROTO + EL GIRO (dark) ===================== -->
 <!-- ===================== SECTION 03 · THE ROTO WORLD (editorial grid) ===================== -->
-<section id="world">
+<section id="world" style="display:none">
   <div class="w-head">
     <div class="label" style="color:var(--bonefade)"><span class="ix" style="color:var(--bone)">02</span>, THE ROTO WORLD</div>
   </div>
@@ -706,7 +707,7 @@
 </section>
 
 <!-- ===================== SECTION 04 · THE FIRST PRODUCT ===================== -->
-<section id="firstproduct">
+<section id="firstproduct" style="display:none">
   <div class="w-head">
     <div class="label" style="color:var(--bonefade)"><span class="ix" style="color:var(--bone)">03</span>, THE FIRST PRODUCT</div>
   </div>
@@ -717,7 +718,7 @@
 
 <!-- ===================== FOOTER ===================== -->
 <footer id="footer">
-  <p class="ft-statement rv">We built a brand about surviving the city while we were learning to survive it ourselves. <span class="em">ROTO is where I started.</span></p>
+  <p class="ft-statement rv">We built a brand about surviving the city while we were learning to survive it ourselves. <span class="em">ROTO is where it started.</span></p>
   <div class="ft-rule"></div>
   <div class="ft-contact">
     <span class="ft-name">Hugo López</span>
@@ -727,8 +728,7 @@
   <img class="ft-logo rv" src="assets/footer-logo.png" alt="ROTO">
   <div class="ft-colophon">
     <dl class="ft-credits">
-      <div class="row"><dt>Concept, research, narrative, art direction &amp; sound</dt><dd>Hugo López</dd></div>
-      <div class="row"><dt>Visual identity &amp; logo</dt><dd>Priscilla Piraino</dd></div>
+      <div class="row"><dt>Co-designed by</dt><dd>Hugo López &amp; Priscilla Piraino</dd></div>
     </dl>
     <div class="ft-copyright">© 2025 ROTO, All rights reserved</div>
   </div>
@@ -953,7 +953,7 @@ function frame(){
     const max=Math.max(0,tr.scrollWidth-window.innerWidth);
     tr.style.transform=`translateX(${-p*max}px)`;
     let c=0; tr.querySelectorAll('figure').forEach((f,k)=>{if(f.getBoundingClientRect().left<window.innerWidth*.5)c=k;});
-    document.getElementById('rgNum').textContent=`0${c+1} / 0${tr.children.length}`;
+    const rn=document.getElementById('rgNum');if(rn)rn.textContent=`0${c+1} / 0${tr.children.length}`;
   }}
 
   // ---- PROBLEM : stretched question, counting stats ----
