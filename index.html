@@ -4,169 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hugo López</title>
-<link rel="icon" type="image/png" href="assets/favicon.png">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  /* Display: Arketta (licencia pendiente) — de momento cae en Zilla Slab. */
-  :root{--bone:#fff;--dark:#0b0b0b;--fade:#8f8d87;
-    --ft:'Arketta','Zilla Slab',Georgia,serif;--fm:'Space Mono',monospace;}
+  @font-face{font-family:'Bowlby One';src:url('/assets/fonts/BowlbyOne-Regular.ttf') format('truetype');font-display:swap}
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:auto}
-  body{font-family:var(--ft);background:var(--dark);color:var(--bone);-webkit-font-smoothing:antialiased}
-  a{color:inherit;text-decoration:none}
-  a:hover{color:var(--bone)}
-
-  nav.topnav{position:fixed;top:32px;right:40px;z-index:30;text-align:right;padding:14px 18px 16px;
-    background:linear-gradient(180deg,rgba(11,11,11,.62),rgba(11,11,11,.42));backdrop-filter:blur(3px);
-    opacity:0;pointer-events:none;transition:opacity .45s ease}
-  nav.topnav.on{opacity:1;pointer-events:auto}
-  .navlbl{font-family:var(--fm);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
-    color:rgba(255,255,255,.8);display:block;margin-bottom:10px;text-shadow:0 1px 12px rgba(0,0,0,.8)}
-  .worklist{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
-  .worklist a{font-family:var(--fm);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-    border-bottom:1px solid transparent;padding-bottom:2px;text-shadow:0 1px 12px rgba(0,0,0,.85);transition:border-color .2s}
-  .worklist a:hover{border-color:var(--bone)}
-  .sig{position:fixed;left:40px;top:34px;z-index:30;font-family:var(--fm);font-size:11px;
-    letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.72)}
-
-  /* ---------- 01 · la línea ---------- */
-  .hero{position:relative;height:100vh;height:100svh;display:flex;align-items:center;overflow:hidden}
-  .film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-    z-index:0}
-  .veil{display:none}
-  #hero.hero{display:block;height:200vh;height:200svh;overflow:visible;background:var(--dark)}
-  .hs{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;isolation:isolate;background:var(--dark)}
-  .hs .film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:none;will-change:filter}
-  .hg,.hw{position:absolute;left:47%;top:47%;transform:translate(-50%,-50%);font-family:'Bowlby One',sans-serif;font-size:18.6vw;line-height:1;white-space:nowrap;color:#fff}
-  .hg{mix-blend-mode:difference}
-  .hw{opacity:0;transform-origin:0 0;will-change:transform,opacity}
-  .hwin{position:absolute;inset:0;width:100%;height:100%;clip-path:inset(100% 0 0 0)}
-  #hmt{font-family:'Bowlby One',sans-serif}
-  .hhint{position:absolute;left:40px;right:40px;bottom:28px;display:flex;justify-content:space-between;font-family:var(--fm);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#fff;mix-blend-mode:difference}
-  .menu .lbl,.menu .idx a,.menu .contact{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
-  .menu.in .lbl,.menu.in .idx a,.menu.in .contact{opacity:1;transform:none}
-  .menu.in .idx a:nth-child(1){transition-delay:.08s}.menu.in .idx a:nth-child(2){transition-delay:.16s}.menu.in .idx a:nth-child(3){transition-delay:.24s}.menu.in .contact{transition-delay:.34s}
-  @font-face{font-family:'Goldman';src:url('assets/fonts/Goldman-Regular.ttf') format('truetype')}
-  @font-face{font-family:'Bowlby One';src:url('assets/fonts/BowlbyOne-Regular.ttf') format('truetype')}
-  .rule{position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,.28);z-index:2}
-  .line{position:relative;z-index:2;white-space:nowrap;display:flex;text-transform:uppercase;font-weight:600;
-    font-size:clamp(64px,15vw,230px);line-height:1;letter-spacing:-.02em;
-    text-shadow:0 4px 40px rgba(0,0,0,.75);
-    animation:slide 44s linear infinite;will-change:transform}
-  .line span{padding-right:.5em;display:inline-block}
-  .line em{font-style:normal;-webkit-text-stroke:1px rgba(255,255,255,.72);color:transparent}
-  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  .ruler{position:absolute;left:0;right:0;bottom:0;height:44px;display:block;z-index:3;
-    background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 1px,transparent 1px 22px);
-    background-position:bottom;background-size:auto 11px;background-repeat:repeat-x}
-  .ruler::after{content:"";position:absolute;left:0;bottom:0;width:0;height:22px;
-    background-image:repeating-linear-gradient(90deg,var(--bone) 0 1px,transparent 1px 22px);
-    animation:measure 5.5s cubic-bezier(.5,0,.3,1) infinite}
-  .ruler:hover::after{animation-play-state:paused;width:34%}
-  @keyframes measure{0%{width:0}55%{width:26%}100%{width:0}}
-  @media(max-width:860px){.ruler{height:38px}}
-  @media(prefers-reduced-motion:reduce){.ruler::after{animation:none;width:26%}}
-
-  /* ---------- 02 · el menú ---------- */
-  .menu{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:14vh 40px 12vh;
-    border-top:1px solid rgba(255,255,255,.14)}
-  .inner{width:100%;max-width:1100px;margin:0 auto}
-  .lbl{font-family:var(--fm);font-size:10px;letter-spacing:.24em;text-transform:uppercase;
-    color:rgba(255,255,255,.4);margin-bottom:28px}
-  .idx a{display:flex;align-items:baseline;gap:28px;padding:24px 0;border-top:1px solid rgba(255,255,255,.16);
-    transition:padding-left .35s cubic-bezier(.16,.78,.2,1),background .25s}
-  .idx a:last-of-type{border-bottom:1px solid rgba(255,255,255,.16)}
-  .idx a:hover{padding-left:22px;background:rgba(255,255,255,.04)}
-  .n{font-family:var(--fm);font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.4);flex:none;width:3ch}
-  .t{text-transform:uppercase;font-weight:600;font-size:clamp(34px,6vw,84px);line-height:.98;letter-spacing:-.02em}
-  .m{margin-left:auto;font-family:var(--fm);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-    color:rgba(255,255,255,.4);white-space:nowrap}
-  .contact{margin-top:56px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
-    font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fade)}
-  .contact a{border-bottom:1px solid transparent;padding-bottom:2px;transition:color .2s,border-color .2s}
-  .contact a:hover{color:var(--bone);border-color:var(--bone)}
-
-  @media(max-width:860px){
-    nav.topnav{top:18px;right:18px}.sig{left:22px;top:22px}
-    .menu{padding:12vh 22px 10vh}.m{display:none}
-  }
-  @media(prefers-reduced-motion:reduce){.line{animation:none}html{scroll-behavior:auto}}
+  html,body{height:100%}
+  body{background:#0b0b0b;color:#fff;font-family:'Space Mono',monospace;-webkit-font-smoothing:antialiased;
+    display:grid;grid-template-rows:auto 1fr auto;min-height:100svh;padding:34px 40px}
+  a{color:#fff;text-decoration:none}
+  a:hover{color:#fff}
+  .sig{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+  main{align-self:center;display:flex;flex-direction:column;gap:28px}
+  h1{font-family:'Bowlby One',sans-serif;font-weight:400;font-size:clamp(44px,10vw,160px);line-height:.95;text-wrap:balance}
+  p{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#a9a7a1;max-width:44ch;line-height:1.7}
+  .go{display:inline-flex;gap:12px;align-items:center;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    border-bottom:1px solid rgba(255,255,255,.4);padding-bottom:4px;align-self:flex-start;transition:border-color .2s}
+  .go:hover{border-color:#fff}
+  footer{display:flex;flex-wrap:wrap;gap:24px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+  @media(max-width:600px){body{padding:24px 22px}}
 </style>
 </head>
 <body>
-
-<div class="sig">Hugo López</div>
-<nav class="topnav" id="topnav">
-  <a class="navlbl" href="#menu">Menu</a>
-  <div class="worklist">
-    <a href="manifesto.html">Manifesto</a>
-    <a href="about.html">About me</a>
-    <a href="work.html">Work</a>
-  </div>
-</nav>
-
-<section class="hero" id="hero">
-  <div class="hs">
-    <img class="film" id="film" src="assets/landing-hugo.jpg" alt="Hugo">
-    <div class="hg" id="hg">HUGO</div>
-    <svg class="hwin" id="hwin" aria-hidden="true"><defs><mask id="hmask"><rect id="hmr" fill="#fff"></rect><text id="hmt" text-anchor="middle" dominant-baseline="central" fill="#000">HUGO</text></mask></defs><rect id="hbr" fill="#0b0b0b" mask="url(#hmask)"></rect></svg>
-    <div class="hhint" id="hhint"><span>hugolopez.me</span><span>Scroll ↓</span></div>
-  </div>
-</section>
-
-<section class="menu" id="menu">
-  <div class="inner">
-    <p class="lbl">Index</p>
-    <div class="idx">
-      <a href="manifesto.html"><span class="n">01</span><span class="t">Manifesto</span><span class="m">Why</span></a>
-      <a href="about.html"><span class="n">02</span><span class="t">About me</span><span class="m">Who</span></a>
-      <a href="work.html"><span class="n">03</span><span class="t">Work</span><span class="m">What</span></a>
-    </div>
-    <div class="contact">
-      <a href="mailto:hugolgromero@gmail.com">hugolgromero@gmail.com</a>
-      <a href="https://www.linkedin.com/in/hugo-lopez-gonzalez-801a89213/" target="_blank" rel="noopener">LinkedIn</a>
-    </div>
-  </div>
-</section>
-
-<script>
-(function(){
-  var n=document.getElementById('topnav'), q=false;
-  function upd(){ n.classList.toggle('on', scrollY > innerHeight*0.55); }
-  addEventListener('scroll',function(){ if(q) return; q=true;
-    requestAnimationFrame(function(){ q=false; upd(); }); },{passive:true});
-  if(location.hash==='#menu'){var mm=document.getElementById('menu');if(mm)scrollTo(0,mm.offsetTop);}
-  document.querySelectorAll('a[href="#menu"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var mm=document.getElementById('menu');scrollTo({top:mm.offsetTop,behavior:'smooth'});});});
-  upd();
-
-})();
-</script>
-<script>
-(function(){
-  var hero=document.getElementById('hero'),hs=hero.querySelector('.hs'),g=document.getElementById('hg'),win=document.getElementById('hwin'),mr=document.getElementById('hmr'),mt=document.getElementById('hmt'),br=document.getElementById('hbr'),hint=document.getElementById('hhint'),menu=document.getElementById('menu'),sig=document.querySelector('.sig');
-  if(sig)sig.style.transition='opacity .3s';
-  function cl(v,a,b){return Math.max(a,Math.min(b,v))}
-  function sm(a,b,x){var t=cl((x-a)/(b-a),0,1);return t*t*(3-2*t)}
-  var box={};
-  function lay(){var W=hs.clientWidth,H=hs.clientHeight;win.setAttribute('viewBox','0 0 '+W+' '+H);
-    [mr,br].forEach(function(r){r.setAttribute('width',W);r.setAttribute('height',H)});
-    mt.setAttribute('x',W*.47);mt.setAttribute('y',H*.47);mt.setAttribute('font-size',getComputedStyle(g).fontSize);
-  }
-  var tick=false;
-  function upd(){tick=false;
-    var run=hero.offsetHeight-innerHeight,p=cl(-hero.getBoundingClientRect().top/(run||1),0,1);
-    hint.style.opacity=1-sm(.02,.1,p);
-    var wp=sm(.05,.6,p);g.style.clipPath='inset(0 0 '+(wp*100)+'% 0)';win.style.clipPath='inset('+((1-wp)*100)+'% 0 0 0)';
-    mt.style.fillOpacity=1-sm(.66,.95,p);
-    if(sig)sig.style.opacity=sm(.85,1,p);
-    if(menu){var r=menu.getBoundingClientRect();if(r.top<innerHeight*.7)menu.classList.add('in');else if(r.top>innerHeight)menu.classList.remove('in');}
-  }
-  function all(){lay();upd()}
-  addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});
-  addEventListener('resize',all);all();document.fonts&&document.fonts.ready.then(all);setTimeout(all,600);
-})();
-</script>
+  <div class="sig">Hugo López</div>
+  <main>
+    <h1>Under construction</h1>
+    <p>This site is being built. More work coming soon.</p>
+    <a class="go" href="/roto.html">View ROTO <span>→</span></a>
+  </main>
+  <footer>
+    <a href="mailto:hugolgromero@gmail.com">hugolgromero@gmail.com</a>
+    <a href="https://www.linkedin.com/in/hugo-lopez-gonzalez-801a89213/" target="_blank" rel="noopener">LinkedIn</a>
+  </footer>
 </body>
 </html>

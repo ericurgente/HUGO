@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ROTO — Hugo López</title>
+<title>ROTO, Hugo López</title>
 <meta name="description" content="ROTO — wearable armor for a generation worn down by the city. A brand project by Hugo López.">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <meta property="og:type" content="website">
@@ -26,7 +26,7 @@
     --bone:#ffffff;
     --ink:#15140f;
     --inkdim:#5b574b;
-    --dark:#0e0d0b;
+    --dark:#000000;
     --bonefade:#a39e90;
     --font-title:'Bowlby One',sans-serif;
     --font-body:'Goldman',sans-serif;
@@ -34,8 +34,8 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Goldman',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;overflow-x:hidden}
-  #pagebg{position:fixed;inset:0;background:var(--bone);z-index:-2}
-  #grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;
+  #pagebg{position:fixed;inset:0;background:#000;z-index:-2}
+  #grain{display:none;position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 
   .mono{font-family:'Goldman',sans-serif}
@@ -73,50 +73,45 @@
   .in-side img{position:absolute;left:50%;top:50%;width:100vh;height:56.25vw;object-fit:cover;transform:translate(-50%,-50%) rotate(90deg)}
   .in-hero{position:absolute;inset:0;will-change:transform}
   .in-hero img{width:100%;height:100%;object-fit:cover;display:block}
-  .in-logo{position:absolute;left:0;top:0;width:26.5vw;height:auto;transform-origin:50% 50%;will-change:transform;opacity:0}
+  .in-logo{position:fixed;z-index:8;pointer-events:none;left:0;top:0;width:26.5vw;height:auto;transform-origin:50% 50%;will-change:transform;opacity:0}
   .in-text{position:absolute;left:0;bottom:44px;writing-mode:vertical-rl;transform:rotate(180deg);opacity:0;
     font-family:var(--font-body);font-weight:500;font-size:clamp(10px,1.4vh,13px);letter-spacing:.16em;text-transform:uppercase;color:#fff;white-space:nowrap}
 
   /* ===== CONTEXT (6a) · slit opens the photo and splits the statement ===== */
-  #ctx{position:relative;height:240vh;background:#fff}
-  #ctx .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#fff}
-  .cx-head{position:absolute;left:2.4vw;right:2.4vw;top:32px;display:flex;justify-content:space-between;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);padding-bottom:10px;border-bottom:1px solid var(--ink)}
-  .cx-slit{position:absolute;left:50%;top:80px;bottom:36px;width:1px;overflow:hidden;background:var(--ink);transform:translateX(-50%)}
-  .cx-slit img{position:absolute;left:50%;top:0;height:100%;width:auto;max-width:none;transform:translateX(-50%)}
-  .cx-t{position:absolute;width:min(25vw,360px);margin:0;font-family:var(--font-body);font-weight:500;font-size:clamp(20px,2.35vw,34px);line-height:1.08;letter-spacing:-.015em;color:var(--ink);text-wrap:pretty}
-  .cx-l{left:2.4vw;bottom:36px}
-  .cx-r{right:2.4vw;top:80px}
+  #ctx{position:relative;height:520vh;margin-top:-35vh;background:transparent}
+  #ctx .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:transparent}
+  .cx-head{position:absolute;left:2.4vw;right:2.4vw;top:32px;display:flex;justify-content:space-between;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;padding-bottom:10px;border-bottom:1px solid #fff}
+  .cx-subj{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  .cx-subj img{position:absolute;left:50%;top:50%;height:min(94vw,118vh);width:auto;max-width:none;filter:url(#lumcut);transform-origin:50% 50%;will-change:transform}
+  .cx-t{position:absolute;width:min(28vw,480px);margin:0;font-family:var(--font-body);font-weight:500;font-size:clamp(24px,3.1vw,48px);line-height:1.05;letter-spacing:-.015em;color:#fff;text-wrap:pretty}
+  .cx-l{left:2.4vw;top:20vh}
+  .cx-r{right:2.4vw;top:20vh}
   @media (max-width:820px){
-    .cx-slit{top:30vh;bottom:22vh}
     .cx-t{width:auto;left:2.4vw;right:2.4vw;font-size:clamp(18px,5vw,24px)}
-    .cx-r{top:80px}.cx-l{bottom:36px}
-    .cx-l{top:auto}
+    .cx-l{top:14vh}.cx-r{top:calc(14vh + 26vh)}
   }
   /* ===== PARTS (7b) · white → black, one stretched word at a time ===== */
-  #parts{position:relative;height:320vh}
-  #parts .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#fff}
-  .pt-head{position:absolute;left:2.4vw;right:2.4vw;top:32px;display:flex;justify-content:space-between;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;opacity:0}
-  .pt-w{position:absolute;left:2.4vw;right:2.4vw;top:64px;bottom:36px;overflow:hidden;opacity:0}
+  #parts{position:relative;height:320vh;margin-top:-320vh}
+  #parts .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:transparent}
+  .pt-head{display:none;position:absolute;left:2.4vw;right:2.4vw;top:32px;display:flex;justify-content:space-between;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;opacity:0}
+  .pt-w{position:absolute;left:2.4vw;right:2.4vw;top:var(--pt-top,78%);height:18vh;overflow:visible;opacity:0}
   .pt-w div{width:max-content;white-space:nowrap;transform-origin:0 0;font-family:'Bowlby One',sans-serif;font-weight:400;font-size:100px;line-height:.8;text-transform:uppercase;color:#fff}
 
   /* ===== ROTO INDEX (8d) · list → sections with sticky side index ===== */
-  #rindex{position:relative;background:#000;color:#fff}
+  #rindex{position:relative;background:transparent;color:#fff}
   .ri-menu{min-height:100vh;min-height:100svh;padding:16vh 2.4vw 10vh;display:flex;flex-direction:column;justify-content:center;max-width:1100px;margin:0 auto}
-  .ri-kicker{font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);padding-bottom:16px}
+  .ri-kicker{font-family:'Goldman',sans-serif;font-weight:700;font-size:clamp(20px,2.4vw,36px);letter-spacing:.22em;text-transform:uppercase;color:#fff;padding-bottom:28px}
   .ri-row{display:flex;align-items:baseline;gap:28px;padding:14px 0 12px;border-top:1px solid rgba(255,255,255,.2);color:#fff;text-decoration:none;transition:padding-left .3s ease}
   .ri-row:hover{padding-left:14px;color:#fff}
   .ri-row .n{font-family:'Goldman',sans-serif;font-size:12px;letter-spacing:.08em;color:rgba(255,255,255,.55);width:24px;flex:none}
   .ri-row .t{font-family:'Bowlby One',sans-serif;font-size:clamp(30px,4vw,56px);line-height:1;text-transform:uppercase}
   .ri-end{border-top:1px solid rgba(255,255,255,.2)}
   .ri-sec{padding:14vh 8vw 18vh calc(2.4vw + 260px);display:flex;flex-direction:column;gap:5vh}
-  .ri-big{display:flex;align-items:flex-end;gap:24px;border-top:1px solid rgba(255,255,255,.2);padding-top:16px}
-  .ri-big .n{font-family:'Goldman',sans-serif;font-size:12px;letter-spacing:.08em;color:rgba(255,255,255,.55);padding-bottom:1vw}
-  .ri-big .t{font-family:'Bowlby One',sans-serif;font-size:clamp(44px,7vw,112px);line-height:.9;text-transform:uppercase;color:#fff}
-  #tension{position:relative;height:260vh;background:#000}
-  #tension .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#000}
-  .tz-bd{position:absolute;left:0;bottom:0;width:100vw;height:52vw;will-change:transform}
-  .tz-bd img{position:absolute;left:50%;top:50%;width:52vw;height:100vw;object-fit:cover;transform:translate(-50%,-50%) rotate(-90deg);max-width:none}
-  .tz-tx{position:absolute;left:2.4vw;top:0;width:95.2vw;margin:0;transform-origin:0 0;font-family:'Bowlby One',sans-serif;font-size:clamp(30px,5.1vw,84px);line-height:1;text-transform:uppercase;color:#fff;text-wrap:balance;will-change:transform}
+  .ri-big{display:flex;align-items:center;gap:20px;align-self:stretch;background:#fff;padding:.5em 2.4vw .45em 2.4vw;margin:0 -8vw 0 calc(-2.4vw - 260px)}
+  .ri-big .n{font-family:'Goldman',sans-serif;font-size:12px;letter-spacing:.08em;color:#000;padding:0}
+  .ri-big .t{font-family:'Bowlby One',sans-serif;font-size:clamp(28px,4.2vw,68px);line-height:.9;text-transform:uppercase;color:#000}
+  #tension{position:relative;height:260vh;background:transparent}
+  #tension .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:transparent}
   .tn-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4vw;align-items:end}
   .tn-text{margin:0;align-self:start;font-family:'Goldman',sans-serif;font-size:clamp(20px,2.1vw,32px);line-height:1.25;color:#fff;text-wrap:pretty;max-width:22ch}
   .tn-img{width:100%;height:auto;display:block;-webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent)}
@@ -129,13 +124,94 @@
   .ri-side a.cur{color:#fff;transform:translateX(8px)}
   @media (max-width:820px){
     .ri-sec{padding:12vh 2.4vw 14vh}
+    .ri-big{margin:0 -2.4vw}
     .ri-side{top:auto;bottom:22px;left:2.4vw;right:2.4vw;flex-direction:row;flex-wrap:wrap;gap:6px 14px}
     .ri-side a .st{display:none}.ri-side a.cur .st{display:inline}
   }
 
   /* ===== PERSONA · rotated spikes portrait, outline word + pinned tags ===== */
-  #persona{position:relative;height:320vh;background:#000}
-  #persona .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#000}
+  #persona{position:relative;height:500vh;background:transparent}
+  #problem{background:transparent}
+  #campaign{background:transparent;padding:4vh 2.4vw 16vh;display:flex;flex-direction:column}
+  #campaign .ix{font-family:'Goldman',sans-serif;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff}
+  .cp-ph{grid-column:1 / span 4;align-self:start;position:sticky;top:110px;display:flex;flex-direction:column;gap:16px}
+  .cp-row{margin-top:16vh;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:20px;border-top:1px solid #fff;padding-top:20px}
+  .cp-row + .cp-row{margin-top:14vh}
+  .cp-t{font-family:'Bowlby One',sans-serif;font-size:clamp(26px,2.6vw,40px);line-height:.95;text-transform:uppercase;color:#fff}
+  .cp-p{margin:0;font-family:'Goldman',sans-serif;font-size:15px;line-height:1.5;color:#fff;max-width:40ch}
+  .cp-g{grid-column:5 / span 8;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .cp-g > *{border:1px dashed rgba(255,255,255,.35);display:block;width:100%;object-fit:cover}
+  .cp-w{grid-column:1 / -1;aspect-ratio:3/2}.cp-v{aspect-ratio:3/4}.cp-s{aspect-ratio:1}
+  .cp-ev{grid-column:5 / span 8;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px}
+  .cp-ev>*{width:100%;height:100%;object-fit:cover;display:block;min-height:0}
+  .cp-ev>video{aspect-ratio:16/9}
+  .cp-ev>img:nth-of-type(n+2){aspect-ratio:4/5}
+  .cp-ev>img:nth-of-type(3){aspect-ratio:auto}
+  @media (max-width:820px){.cp-ev{grid-column:1 / -1}}
+  .cp-row.film .cp-ph{grid-column:1 / -1;position:static;margin-bottom:28px}
+  .cp-row.film .cp-p{max-width:60ch}
+  .cp-film{grid-column:1 / -1;width:100%;height:auto;max-height:88vh;object-fit:contain;display:block;background:#000000}
+  @media (max-width:820px){.cp-ph{grid-column:1 / -1;position:static;margin-bottom:24px}.cp-g,.cp-film{grid-column:1 / -1}}
+  #ri-2{padding-bottom:0}
+  #system{background:transparent;padding:3vh 2.4vw 16vh;display:flex;flex-direction:column}
+  #system .ix{font-family:'Goldman',sans-serif;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff}
+  .sy-big{margin:0;width:min(520px,100%);font-family:'Goldman',sans-serif;font-weight:400;font-size:20px;line-height:1.5;color:#fff;text-align:left}
+  .sy-top{display:flex;justify-content:space-between;align-items:flex-start;gap:4vw;flex-wrap:wrap}
+  .sy-intro{margin:0 0 0 auto;width:min(520px,100%);font-family:'Goldman',sans-serif;font-size:20px;line-height:1.5;color:#fff}
+  .sy-col{margin-top:9vh;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:repeat(10,5.2vw);gap:8px}
+  .sy-col img{width:100%;height:100%;object-fit:cover;display:block}
+  .sy-head{margin-top:20vh;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:20px;align-items:start}
+  .sy-head .ix{grid-column:1 / span 2;padding-top:12px}
+  .sy-mid{grid-column:3 / span 9;margin:0;font-family:'Bowlby One',sans-serif;font-size:clamp(24px,2.9vw,44px);line-height:1.02;text-transform:uppercase;color:#fff;text-wrap:pretty}
+  .sy-grid{margin-top:9vh;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3vw}
+  .sy-it{display:flex;flex-direction:column;gap:12px}
+  .sy-imgs{display:grid;grid-template-columns:2fr 1fr;gap:8px;align-items:end;margin-bottom:10px}
+  .sy-ph{border:1px dashed rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+  .sy-tile{position:relative;aspect-ratio:3/4;overflow:hidden;cursor:pointer;margin-bottom:10px}
+  .sy-tile .r{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
+  .sy-tile .s{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:18%;transition:opacity .5s}
+  .sy-tile .s img{max-width:100%;max-height:100%;display:block}
+  .sy-tile.on .r{opacity:1}.sy-tile.on .s{opacity:0}
+  .sy-tile .lens{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;clip-path:circle(13% at 30% 35%);animation:syLens 6s ease-in-out infinite;transition:opacity .4s;pointer-events:none}
+  .sy-tile .ring{position:absolute;width:26%;aspect-ratio:1;border:2px solid #fff;border-radius:50%;background:rgba(255,255,255,.06);box-shadow:0 0 24px rgba(255,255,255,.25);transform:translate(-50%,-50%);left:30%;top:35%;animation:syRing 6s ease-in-out infinite;transition:opacity .4s;pointer-events:none}
+  .sy-tile.on .lens,.sy-tile.on .ring{opacity:0}
+  @keyframes syLens{0%,100%{clip-path:circle(13% at 30% 35%)}33%{clip-path:circle(13% at 68% 48%)}66%{clip-path:circle(13% at 42% 70%)}}
+  @keyframes syRing{0%,100%{left:30%;top:35%}33%{left:68%;top:48%}66%{left:42%;top:70%}}
+  .sy-main{aspect-ratio:1}.sy-ref{aspect-ratio:3/4}
+  .sy-nm{font-family:'Bowlby One',sans-serif;font-size:clamp(28px,3vw,44px);line-height:.9;text-transform:uppercase;color:#fff}
+  .sy-ref-t{font-family:'Goldman',sans-serif;font-size:15px;line-height:1.4;color:#fff}
+  .sy-mean{align-self:flex-start;background:#fff;color:#0b0b0b;padding:5px 10px;font-family:'Goldman',sans-serif;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+  .sy-logo{margin-top:5vh;display:flex;justify-content:space-between;align-items:center;gap:4vw;flex-wrap:wrap}
+  .sy-logo img{width:min(52vw,760px);height:auto;display:block}
+  .sy-logo p{margin:0;width:min(520px,100%);font-family:'Goldman',sans-serif;font-size:20px;line-height:1.5;color:#fff;text-wrap:pretty}
+  @media(max-width:760px){.sy-grid{grid-template-columns:1fr}.sy-col{grid-template-rows:repeat(10,9vw)}.sy-head .ix,.sy-mid{grid-column:1 / -1}}
+  .pb-sub{padding:0 8vw 0 calc(2.4vw + 260px);margin-top:-6vh}
+  @media (max-width:820px){.pb-sub{padding:0 2.4vw}}
+  .pb-sub span{display:block;font-family:'Goldman',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,40px);line-height:1.15;color:#fff;text-align:left}
+  .pb-op{height:200vh;position:relative}
+  .pb-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center;padding:0 2.4vw}
+  .pb-fit{transform-origin:0 50%}
+  .pb-fit div,.br-fit div{font-family:'Bowlby One',sans-serif;text-transform:uppercase;color:#fff;width:max-content;white-space:nowrap;line-height:.84;font-size:100px}
+  .pb-stats{padding:8vh 2.4vw 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3vw}
+  .pb-stats>div{display:flex;flex-direction:column;gap:18px}
+  .pb-stats .ix,.ps-list .ix,.pb-cap{font-family:'Goldman',sans-serif;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff}
+  .pb-stats .num{font-family:'Bowlby One',sans-serif;font-size:clamp(64px,11.7vw,170px);line-height:.8;color:#fff;font-variant-numeric:tabular-nums}
+  .pb-stats .cap{font-family:'Goldman',sans-serif;font-size:16px;line-height:1.4;letter-spacing:.04em;color:#fff;max-width:300px}
+  .pb-pre{margin:0;padding:14vh 2.4vw 7vh calc(2.4vw + 260px);max-width:calc(520px + 2.4vw + 260px);box-sizing:content-box;font-family:'Goldman',sans-serif;font-weight:400;font-size:20px;line-height:1.5;color:#fff}
+  @media (max-width:820px){.pb-pre{padding-left:2.4vw;max-width:none;box-sizing:border-box}}
+  .pb-ban{height:min(47vw,75vh);overflow:hidden}
+  .pb-ban img{width:100%;height:100%;object-fit:cover;object-position:50% 72%;display:block}
+  .pb-cap{display:flex;justify-content:space-between;padding:14px 2.4vw 0}
+  .br-c{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;text-align:center;padding:2vh 2.4vw 14vh;background:transparent}
+  .br-fit{display:flex;flex-direction:column;align-items:center}
+  .br-chip{background:#fff;color:#0b0b0b;padding:6px 12px;font-family:'Goldman',sans-serif;font-weight:700;font-size:16px;letter-spacing:.16em;text-transform:uppercase}
+  .br-p{margin:0;font-family:'Goldman',sans-serif;font-size:17px;line-height:1.5;color:#fff;max-width:560px;text-wrap:balance}
+  .ps-list{position:absolute;left:2.4vw;width:48vw;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;gap:6.5vh;pointer-events:none}
+  .ps-list>div{display:grid;grid-template-columns:72px 1fr;gap:12px 0;opacity:0}
+  .ps-list .ix{padding-top:10px}
+  .ps-list .nm{font-family:'Bowlby One',sans-serif;font-size:clamp(26px,3.3vw,46px);line-height:.95;text-transform:uppercase;color:#fff}
+  .ps-list .ds{font-family:'Goldman',sans-serif;font-size:17px;line-height:1.4;color:#fff}
+  #persona .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:transparent}
   .ps-img{position:absolute;left:50%;top:50%;width:100vh;height:100vw;object-fit:cover;transform:translate(-50%,-50%) rotate(90deg);}
   .ps-fit{position:absolute;left:2.4vw;right:2.4vw;top:64px;bottom:40px;overflow:hidden}
   .ps-word{width:max-content;white-space:nowrap;transform-origin:0 0;font-family:'Bowlby One',sans-serif;font-size:100px;line-height:.8;text-transform:uppercase;color:#fff}
@@ -149,7 +225,7 @@
   .ps-tag .ln{width:40px;height:1px;background:#fff}
   .ps-tag .lb{background:#fff;padding:3px 7px}
   /* ===== ROTO WORLD GALLERY · vertical scroll drives a horizontal track ===== */
-  #rgal{position:relative;height:420vh;background:#000}
+  #rgal{position:relative;height:420vh;background:transparent}
   #rgal .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
   .rg-head{position:absolute;left:calc(2.4vw + 260px);right:2.4vw;top:26px;display:flex;justify-content:space-between;font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;z-index:2}
   .rg-track{position:absolute;left:0;top:80px;bottom:60px;display:flex;gap:24px;padding-left:calc(2.4vw + 260px);padding-right:2.4vw;will-change:transform}
@@ -160,11 +236,15 @@
 
   /* ===== S1 (hero hook, then ONE pinned stage: young+city fixed, wired+crowd rise in, then lines) ===== */
   #s1{position:relative;padding:0}
-  .s1-hookwrap{height:200vh;position:relative}
-  .s1-hook{height:100vh;height:100svh;margin:0;padding:2.4vw;overflow:hidden;position:sticky;top:0;z-index:2;color:var(--bone)}
+  .s1-hookwrap{height:160vh;position:relative}
+  .s1-hook{height:100vh;height:100svh;margin:0;padding:2.4vw;overflow:hidden;position:sticky;top:0;z-index:2;color:#fff;background:transparent;display:flex;align-items:center;justify-content:center;isolation:isolate}
   .s1-hook .w{font-style:normal;opacity:0}
-  .s1-hook .hk{display:block;transform-origin:0 0;will-change:transform}
-  .s1-hook .hk span{display:block;width:max-content;white-space:nowrap;font-family:'Bowlby One',sans-serif;font-weight:400;
+  .s1-hook{flex-direction:column;gap:2.2vh}
+  .s1-hook .hk-top{display:flex;flex-direction:column;align-items:center;gap:1.2vh;mix-blend-mode:normal}
+  .s1-hook .hk-top img{width:min(16vw,26vh);height:auto;display:block}
+  .s1-hook .hk-is{font-family:'Bowlby One',sans-serif;text-transform:uppercase;font-size:clamp(28px,5vh,64px);line-height:.8;color:#fff}
+  .s1-hook .hk{display:block;width:100%}
+  .s1-hook .hk>span{display:block;width:max-content;margin:0 auto;mix-blend-mode:difference;white-space:nowrap;font-family:'Bowlby One',sans-serif;font-weight:400;
     text-transform:uppercase;line-height:.8;letter-spacing:-.01em;font-size:100px}
   .s1-track{position:relative;height:260vh;margin-top:0}
   .s1-stage{position:sticky;top:0;height:100vh;overflow:hidden}
@@ -175,7 +255,7 @@
   .s1-body b{font-weight:700;color:var(--ink)}
   .s1-body .hl::after{content:"21% rise in anxiety.";position:absolute;left:0;top:50%;transform:translateY(-50%);
     height:1.32em;width:calc(var(--hl,0) * (100% + 0.55em));overflow:hidden;display:flex;align-items:center;font-weight:700;
-    background:#0e0d0b;color:#fff;white-space:nowrap;pointer-events:none}
+    background:#000000;color:#fff;white-space:nowrap;pointer-events:none}
   .s1-body .hl{position:relative;white-space:nowrap;color:#27241c;font-weight:400}
   .hl-br{display:none}
   .s1-img{position:absolute;top:8vh;right:11vw;width:44vw;height:auto;filter:grayscale(1) contrast(1.04);z-index:4}
@@ -213,7 +293,7 @@
   .sym-line{position:absolute;top:50%;left:7vw;right:7vw;transform:translateY(-50%);text-align:center;
     font-family:var(--font-body);font-weight:500;letter-spacing:.03em;line-height:1.5;font-size:clamp(18px,1.9vw,26px);z-index:2}
   .sym-spark{position:absolute;top:50%;left:50%;width:42vh;height:auto;opacity:0;z-index:3;pointer-events:none;will-change:transform}
-  .sym .mark{background:#0e0d0b;color:#fff;padding:.06em .3em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .sym .mark{background:#000000;color:#fff;padding:.06em .3em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 
   /* ===== SECTION 03 · THE ROTO WORLD (editorial grid) ===== */
   #world{padding:15vh 5vw 18vh;background:var(--dark)}
@@ -279,8 +359,8 @@
   .ft-copyright{font-family:'Goldman',sans-serif;font-size:10.5px;letter-spacing:.08em;color:#6f6857}
   @media(max-width:640px){.ft-credits .row{grid-template-columns:1fr;gap:3px}.ft-credits dd{text-align:left}}
   /* full-screen looping ROTO film with a mark sweeping over it */
-  #rotofilm{position:relative;background:#000}
-  #rotofilm .stage{background:#000}
+  #rotofilm{position:relative;background:transparent}
+  #rotofilm .stage{background:transparent}
   #rotofilm video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
   .cross-img{position:absolute;top:50%;left:50%;width:56vw;height:auto;will-change:transform;z-index:5;mix-blend-mode:difference}
 
@@ -371,8 +451,11 @@
     .label{font-size:11px;letter-spacing:.18em}
   }
 </style>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@700&display=swap">
+<script id="clash-caps">(function(){function run(){var all=document.body.querySelectorAll('*');for(var i=0;i<all.length;i++){var el=all[i];if(/^(SCRIPT|STYLE|SVG|PATH|IMG|VIDEO|SOURCE)$/i.test(el.tagName))continue;var t='';for(var c=el.firstChild;c;c=c.nextSibling)if(c.nodeType===3)t+=c.nodeValue;var L=t.replace(/[^A-Za-zÀ-ÿ]/g,'');if(L.length<2)continue;var cs=getComputedStyle(el);if(cs.textTransform==='uppercase'||L===L.toUpperCase()){el.style.setProperty('font-family',"'Clash Display',sans-serif",'important');el.style.setProperty('font-weight','700','important');}}}if(document.readyState!=='loading')run();else document.addEventListener('DOMContentLoaded',run);window.addEventListener('load',run);})();</script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="lumcut" x="0" y="0" width="1" height="1" style="color-interpolation-filters:sRGB"><feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  4 8 1.3 0 -0.45"/></filter></svg>
 <div id="pagebg"></div>
 <div id="grain"></div>
 
@@ -384,11 +467,11 @@
 </div>
 
 <!-- ===================== INTRO ===================== -->
+<img class="in-logo" id="inLogo" src="assets/header-roto.png" alt="ROTO">
 <section id="intro">
   <div class="stage">
     <div class="in-side" id="inSide"><img src="assets/roto-intro-side.jpg" alt="Model in black leather with chain bag"></div>
     <div class="in-hero" id="inHero"><img src="assets/roto-intro-hero.jpg" alt="Model in black leather walking past a concrete wall"></div>
-    <img class="in-logo" id="inLogo" src="assets/header-roto.png" alt="ROTO">
     <div class="in-text" id="inText">Brand strategy and creative direction</div>
   </div>
 </section>
@@ -396,14 +479,14 @@
 
 <!-- ===================== SECTION 1 · LA TENSIÓN ===================== -->
 <section id="s1">
-  <div class="s1-hookwrap" id="s1hookwrap"><h1 class="s1-hook" id="s1hook" aria-label="An exoskeleton to survive the city"><span class="hk" id="s1hk"><span><i class="w">An</i> <i class="w">exoskeleton</i></span><span><i class="w">to</i> <i class="w">survive</i></span><span><i class="w">the</i> <i class="w">city</i></span></span></h1></div>
+  <div class="s1-hookwrap" id="s1hookwrap"><h1 class="s1-hook" id="s1hook" aria-label="ROTO is an exoskeleton to survive the city"><span class="hk-top"><img id="hkLogo" src="assets/header-roto.png" alt="" style="visibility:hidden"><span class="hk-is">is</span></span><span class="hk" id="s1hk"><span><i class="w">An</i> <i class="w">exoskeleton</i></span><span><i class="w">to</i> <i class="w">survive</i></span><span><i class="w">the</i> <i class="w">city</i></span></span></h1></div>
 </section>
 
 <!-- ===================== CONTEXT ===================== -->
 <section id="ctx">
   <div class="stage">
-    <div class="cx-head"><span>Roto</span><span>Context</span></div>
-    <div class="cx-slit" id="cxSlit"><img src="assets/roto-context-smoke.jpg" alt="Veiled figure smoking on a rooftop ledge"></div>
+    
+    <div class="cx-subj" id="cxSubj"><img src="assets/ctx-pins2.png" alt="Face with metal needles"></div>
     <p class="cx-t cx-l">ROTO is a hardware and accessories brand born from a shared struggle:</p>
     <p class="cx-t cx-r">the emotional exhaustion of surviving a city while navigating your very own circumstances</p>
   </div>
@@ -422,8 +505,8 @@
 <!-- ===================== ROTO INDEX ===================== -->
 <section id="rindex">
   <div class="ri-menu">
-    <div class="ri-kicker">Roto — Index</div>
-    <a class="ri-row" href="#ri-0" data-ri-go="0"><span class="n">01</span><span class="t">The tension</span></a>
+    <div class="ri-kicker">Index</div>
+    <a class="ri-row" href="#ri-0" data-ri-go="0"><span class="n">01</span><span class="t">The problem</span></a>
     <a class="ri-row" href="#ri-1" data-ri-go="1"><span class="n">02</span><span class="t">The brand</span></a>
     <a class="ri-row" href="#ri-2" data-ri-go="2"><span class="n">03</span><span class="t">The system</span></a>
     <a class="ri-row" href="#ri-3" data-ri-go="3"><span class="n">04</span><span class="t">The campaign</span></a>
@@ -431,38 +514,95 @@
     <div class="ri-end"></div>
   </div>
   <div class="ri-sec" id="ri-0" data-ri-sec="0">
-    <div class="ri-big"><span class="n">01</span><span class="t">The tension</span></div>
+    <div class="ri-big"><span class="n">01</span><span class="t">The problem</span></div>
   </div>
-  <div id="tension">
-    <div class="stage">
-      <div class="tz-bd" id="tzBd"><img src="assets/roto-tower.jpg" alt="Tower at night, seen from below"></div>
-      <p class="tz-tx" id="tzTx">Raving subculture transfigured industrial ruins into sanctuaries, and factories into cathedrals, another way of finding beauty in the traditionally ugly</p>
+  <div id="problem">
+    <div class="pb-sub"><span>For young adults, surviving the city means:</span></div></div>
+    <div class="pb-stats" id="pbStats">
+      <div><span class="ix">[ 01 ]</span><span class="num" data-to="39" data-suf="%">39%</span><span class="cap">39% rise in mood disorders.</span></div>
+      <div><span class="ix">[ 02 ]</span><span class="num" data-to="21" data-suf="%">21%</span><span class="cap">21% rise in anxiety.</span></div>
+      <div><span class="ix">[ 03 ]</span><span class="num" data-to="2" data-suf="×">2×</span><span class="cap">Two times the likelihood of addiction.</span></div>
     </div>
+    <p class="pb-pre">Humans need collective rituals to overcome difficulties. If prehistoric humans had cave paintings, punkies used protests, and ravers had warehouses: what is the ritual for the 2020s urban youth?</p>
+    <div class="pb-ban"><img src="assets/roto-ritual.png" alt="Covered silhouettes sitting above the city"></div>
+    <div class="pb-cap"><span>( FIG. A )</span><span>Ritual</span></div>
   </div>
   <div class="ri-sec" id="ri-1" data-ri-sec="1">
     <div class="ri-big"><span class="n">02</span><span class="t">The brand</span></div>
+  </div>
+  <div class="br-c">
+    <div class="br-fit" id="brFit"><div><i style="font-style:italic">ROTO</i> is Spanish</div><div>for “broken.”</div></div>
+    <span class="br-chip">Not as damage but as resilience</span>
+    <p class="br-p">Wearable armour for an emotionally exhausted youth surviving modern urban life. Channeling the rebel essence of punk and raving into a ritualistic practice of communion, through accessories convey a feeling of protection</p>
   </div>
   <!-- ===================== PERSONA ===================== -->
   <section id="persona" aria-label="Roto persona: fear, stress, rage, overstimulation, anxiety, isolation, loneliness, mistrust">
     <div class="stage">
       <img class="ps-img" src="assets/roto-persona-spikes.jpg" alt="Face covered in metal pins">
-      <div class="ps-title"><span>Roto persona</span><span class="ps-fl">flooded with</span><span class="ps-dec" id="psDec">Fear</span></div>
+      <div class="ps-title" id="psTitle"><span>Roto persona</span><span class="ps-fl">flooded with</span><span class="ps-dec" id="psDec">Fear</span></div>
+      <div class="ps-list" id="psList">
+        <div><span class="ix">[ 01 ]</span><span class="nm">The Overstimulated City Survivor</span><span></span><span class="ds">anxiety as baseline, fashion as reassurance.</span></div>
+        <div><span class="ix">[ 02 ]</span><span class="nm">The Broken Creative Soul</span><span></span><span class="ds">burnout and brilliance, seeking transformation.</span></div>
+        <div><span class="ix">[ 03 ]</span><span class="nm">The Collective Seeker</span><span></span><span class="ds">crowded city, empty connections, looking for ritual.</span></div>
+      </div>
     </div>
   </section>
   <div class="ri-sec" id="ri-2" data-ri-sec="2">
     <div class="ri-big"><span class="n">03</span><span class="t">The system</span></div>
-    <div class="ri-ph">Contenido pendiente</div>
+  </div>
+  <div id="system">
+    <div class="sy-top">
+    <p class="sy-big">To the eye, ROTO seems wild, aggressive and maybe even dangerous, alluding to greater themes of human nature and change. However, it aims to connect at the deepest emotional level</p>
+    <p class="sy-intro">Every visual decision follows from the brand's emotional foundations. Primitive, grunge and urban themes translated into a cohesive identity through colour, texture and symbolism.</p>
+    </div>
+    <div class="sy-head" style="margin-top:9vh"><span class="ix" style="grid-column:1 / -1;white-space:nowrap">[ A ] Colour palette &amp; materials</span></div>
+    <div class="sy-col">
+      <img src="assets/sys-cuff.jpg" alt="Silver cuff" style="grid-column:1 / 4;grid-row:1 / 5"><div style="grid-column:1 / 4;grid-row:5 / 7;background:#f5f1f0"></div><img src="assets/sys-croc.jpg" alt="Silver croc texture" style="grid-column:1 / 4;grid-row:7 / 11">
+      <img src="assets/sys-hammer.jpg" alt="Hammered metal" style="grid-column:4 / 8;grid-row:1 / 8"><div style="grid-column:4 / 6;grid-row:8 / 11;background:#878684"></div><div style="grid-column:6 / 8;grid-row:8 / 11;background:#555c69"></div>
+      <img src="assets/sys-ccp.jpg" alt="Leather with metal plate" style="grid-column:8 / 10;grid-row:1 / 7"><img src="assets/sys-liquid.jpg" alt="Liquid metal texture" style="grid-column:8 / 10;grid-row:7 / 11">
+      <img src="assets/sys-leather.jpg" alt="Black leather" style="grid-column:10 / 13;grid-row:1 / 5"><img src="assets/sys-zip.jpg" alt="Pleated leather with zip" style="grid-column:10 / 12;grid-row:5 / 11">
+      <div style="grid-column:12 / 13;grid-row:5 / 7;background:#625950"></div><div style="grid-column:12 / 13;grid-row:7 / 9;background:#483634"></div><div style="grid-column:12 / 13;grid-row:9 / 10;background:#363636"></div><div style="grid-column:12 / 13;grid-row:10 / 11;background:#090909;outline:1px solid #262626;outline-offset:-1px"></div>
+    </div>
+    <div class="sy-head"><span class="ix" style="grid-column:1 / -1;white-space:nowrap">[ B ] Symbolism</span></div>
+    <p class="sy-big" style="margin-top:5vh">Drawing from stone age art and historical eras, ROTO developed three core symbols, each etched, engraved or embedded across the brand.</p>
+    <div class="sy-grid">
+      <div class="sy-it"><div class="sy-tile"><img class="r" src="assets/ref-dagger-v.jpg" alt="Dagger reference"><img class="lens" src="assets/ref-dagger-v.jpg" alt=""><div class="s"><img src="assets/sym-dagger.png" alt="Dagger symbol"></div><span class="ring"></span></div><span class="ix">[ 01 ]</span><span class="sy-nm">Dagger</span><span class="sy-ref-t">14th-century Rondel + Picasso's Bullfight III.</span><span class="sy-mean">Craftsmanship and defense.</span></div>
+      <div class="sy-it"><div class="sy-tile"><img class="r" src="assets/ref-mouflon.jpg" alt="Mouflon reference" style="filter:grayscale(1)"><div class="s"><img src="assets/sym-mouflon.png" alt="Mouflon symbol"></div></div><span class="ix">[ 02 ]</span><span class="sy-nm">Mouflon</span><span class="sy-ref-t">Sardinian horns + Alpine Krampus mythology.</span><span class="sy-mean">Primal instinct.</span></div>
+      <div class="sy-it"><div class="sy-tile"><img class="r" src="assets/ref-stelar.jpg" alt="Stelar reference" style="filter:grayscale(1) brightness(.85)"><div class="s"><img src="assets/sym-stelar.png" alt="Stelar symbol"></div></div><span class="ix">[ 03 ]</span><span class="sy-nm">Stelar</span><span class="sy-ref-t">Kosmaj Partisan monument, Belgrade.</span><span class="sy-mean">Explosion as renewal.</span></div>
+    </div>
+    <div class="sy-head"><span class="ix" style="grid-column:1 / -1;white-space:nowrap">[ C ] Logo</span></div>
+    <div class="sy-logo">
+      <img src="assets/header-roto.png" alt="ROTO logo">
+      <p>Rough, primal, versatile, designed to be taken apart and still be identified as ROTO.</p>
+    </div>
   </div>
   <div class="ri-sec" id="ri-3" data-ri-sec="3">
     <div class="ri-big"><span class="n">04</span><span class="t">The campaign</span></div>
-    <div class="ri-ph">Contenido pendiente</div>
+  </div>
+  <div id="campaign">
+    <div class="sy-top" style="align-items:center">
+    <p class="sy-big">"Instinct" is the first breath of the brand into the city. Its passport to a collective launch.</p>
+    <p class="sy-intro">"Instinct" wants to be reminiscent of something we have felt and known all along." A three-phase strategy designed to make the brand a visible scar of the city. Barcelona would discover ROTO before ROTO explained itself.</p>
+    </div>
+    <div class="cp-row" style="margin-top:8vh">
+      <div class="cp-ph"><span class="ix">[ Phase 01 ]</span><span class="cp-t">ROTO doors</span><p class="cp-p">ROTO Doors placed in Barcelona's underground bars and clubs as gateways into the brand's universe, alongside products displayed in glass boxes over stone slates, fragile on the outside, symbolic within.</p></div>
+      <div class="cp-g" style="grid-template-columns:repeat(3,minmax(0,1fr))"><img src="assets/cp-door-1.png" alt="ROTO door, sculpted metal relief" style="aspect-ratio:9/16;border:0"><img src="assets/cp-door-2.png" alt="ROTO door, fan-shaped entrance" style="aspect-ratio:9/16;border:0"><img src="assets/cp-glassbox.png" alt="ROTO bag in a glass box over a stone slate" style="aspect-ratio:9/16;border:0"></div>
+    </div>
+    <div class="cp-row">
+      <div class="cp-ph"><span class="ix">[ Phase 02 ]</span><span class="cp-t">The Event</span><p class="cp-p">First gathering at Refugi Antiaeri, a civil war bunker at Plaza Tetuan; underground techno by 240km/h, visual projections by Unax Lafuente, fashion and sound melted into raw concrete.</p></div>
+      <div class="cp-ev"><video src="assets/ev-video.mp4" autoplay muted loop playsinline style="grid-column:1 / span 8"></video><img src="assets/ev-fog.png" alt="Beams of light and fog in the bunker" style="grid-column:9 / span 4;height:0;min-height:100%;aspect-ratio:auto"><img src="assets/ev-red1.png" alt="Projections over the crowd" style="grid-column:1 / span 4;grid-row:2 / span 2;height:0;min-height:100%;aspect-ratio:auto"><img src="assets/ev-dj.png" alt="DJ booth in the smoke" style="grid-column:5 / span 8;aspect-ratio:16/9"><img src="assets/ev-steps.png" alt="Silhouettes on the steps in the fog" style="grid-column:5 / span 8;aspect-ratio:16/9"></div>
+    </div>
+    <div class="cp-row film">
+      <div class="cp-ph"><span class="ix">[ Phase 03 ]</span><span class="cp-t">The film</span><p class="cp-p">A fashion film bridging product with brand purpose. Showing that ROTO is an accessories brand at heart, but a community above all.</p></div>
+      <video class="cp-film" src="assets/roto-film.mp4" autoplay muted loop playsinline preload="auto"></video>
+    </div>
   </div>
   <div class="ri-sec" id="ri-4" data-ri-sec="4">
     <div class="ri-big"><span class="n">05</span><span class="t">Roto world</span></div>
   </div>
   <div id="rgal">
     <div class="stage">
-      <div class="rg-head"><span>05 — Roto world · Archive</span><span id="rgNum">01 / 08</span></div>
+      <div class="rg-head"><span>05, Roto world · Archive</span><span id="rgNum">01 / 09</span></div>
       <div class="rg-track" id="rgTrack">
         <figure><video src="assets/roto-g-rooftop.mp4" muted autoplay loop playsinline></video><figcaption><span>01</span><span>Rooftop</span></figcaption></figure>
         <figure><img src="assets/roto-g-silhouettes.jpg" alt="Roto — Silhouettes"><figcaption><span>02</span><span>Silhouettes</span></figcaption></figure>
@@ -472,12 +612,13 @@
         <figure><img src="assets/g-bullbag.jpg" alt="Roto — Bull bag"><figcaption><span>06</span><span>Bull bag</span></figcaption></figure>
         <figure><img src="assets/g-install.jpg" alt="Roto — Install"><figcaption><span>07</span><span>Install</span></figcaption></figure>
         <figure><img src="assets/g-figures.jpg" alt="Roto — Figures"><figcaption><span>08</span><span>Figures</span></figcaption></figure>
+        <figure><video src="assets/roto-g-slowmo.mp4" muted autoplay loop playsinline></video><figcaption><span>09</span><span>Slow motion</span></figcaption></figure>
       </div>
     </div>
   </div>
 </section>
-<nav class="ri-side" id="riSide" aria-label="Roto sections">
-  <a href="#ri-0" data-ri-go="0"><span>01</span><span class="st">The tension</span></a>
+<nav class="ri-side" id="riSide" aria-label="Roto sections" style="display:none">
+  <a href="#ri-0" data-ri-go="0"><span>01</span><span class="st">The problem</span></a>
   <a href="#ri-1" data-ri-go="1"><span>02</span><span class="st">The brand</span></a>
   <a href="#ri-2" data-ri-go="2"><span>03</span><span class="st">The system</span></a>
   <a href="#ri-3" data-ri-go="3"><span>04</span><span class="st">The campaign</span></a>
@@ -488,7 +629,7 @@
   <div class="s1-track">
     <div class="s1-stage">
       <div class="s1-inner" id="s1inner">
-      <p class="s1-body">Young people in cities are carrying more than ever — a 39% rise in mood disorders, a <b class="hl" id="hlAnx">21% rise in anxiety.</b><br class="hl-br"> Sensory overload, financial pressure, and a quiet kind of isolation.</p>
+      <p class="s1-body">Young people in cities are carrying more than ever, a 39% rise in mood disorders, a <b class="hl" id="hlAnx">21% rise in anxiety.</b><br class="hl-br"> Sensory overload, financial pressure, and a quiet kind of isolation.</p>
       <img class="s1-img" src="assets/s1-cityscape.webp" alt="Aerial view of a city square with long human shadows">
       <p class="s1-wired" id="s1wired">We're social by definition.<br>The city isolates us anyway.</p>
       <div class="crowd-wrap">
@@ -505,9 +646,9 @@
   <div class="stage">
     <!-- intro -->
     <div class="p-intro will" id="pIntro">
-      <div class="label" style="margin-bottom:28px"><span class="ix">01</span> — THE PATTERN</div>
+      <div class="label" style="margin-bottom:28px"><span class="ix">01</span>, THE PATTERN</div>
       <h2 class="p-hook">We've always answered this the same way.</h2>
-      <p class="p-body">When the world gets too heavy, humans don't face it alone — we gather, and we make something to carry us through.</p>
+      <p class="p-body">When the world gets too heavy, humans don't face it alone, we gather, and we make something to carry us through.</p>
     </div>
     <!-- three cascading photo cards -->
     <div class="pcard will" id="st1" style="left:14vw;top:12vh;width:40vw;z-index:1">
@@ -537,19 +678,12 @@
   </div>
 </section>
 
-<!-- ===================== ROTO FILM (full-screen loop) + sweeping mark ===================== -->
-<section class="pin" id="rotofilm" style="height:185vh">
-  <div class="stage">
-    <video src="assets/roto-film.mp4" autoplay muted loop playsinline preload="auto"></video>
-    <img class="cross-img" src="assets/revo-logo-white.png" alt="ROTO logo">
-  </div>
-</section>
 
 <!-- ===================== SECTION 3 · ROTO + EL GIRO (dark) ===================== -->
 <!-- ===================== SECTION 03 · THE ROTO WORLD (editorial grid) ===================== -->
 <section id="world">
   <div class="w-head">
-    <div class="label" style="color:var(--bonefade)"><span class="ix" style="color:var(--bone)">02</span> — THE ROTO WORLD</div>
+    <div class="label" style="color:var(--bonefade)"><span class="ix" style="color:var(--bone)">02</span>, THE ROTO WORLD</div>
   </div>
     <div class="w-flow">
       <div class="w-top">
@@ -574,7 +708,7 @@
 <!-- ===================== SECTION 04 · THE FIRST PRODUCT ===================== -->
 <section id="firstproduct">
   <div class="w-head">
-    <div class="label" style="color:var(--bonefade)"><span class="ix" style="color:var(--bone)">03</span> — THE FIRST PRODUCT</div>
+    <div class="label" style="color:var(--bonefade)"><span class="ix" style="color:var(--bone)">03</span>, THE FIRST PRODUCT</div>
   </div>
   <div class="fp-flow">
     <div class="gi rv"><img src="assets/fp-rooftop.jpg" decoding="async" alt="The first product on a leather sofa"></div>
@@ -596,7 +730,7 @@
       <div class="row"><dt>Concept, research, narrative, art direction &amp; sound</dt><dd>Hugo López</dd></div>
       <div class="row"><dt>Visual identity &amp; logo</dt><dd>Priscilla Piraino</dd></div>
     </dl>
-    <div class="ft-copyright">© 2025 ROTO — All rights reserved</div>
+    <div class="ft-copyright">© 2025 ROTO, All rights reserved</div>
   </div>
   <svg class="crack-layer" id="crackLayer" aria-hidden="true"></svg>
 </footer>
@@ -607,7 +741,7 @@ const lerp=(a,b,t)=>a+(b-a)*t;
 const smooth=(e0,e1,x)=>{const t=clamp((x-e0)/(e1-e0),0,1);return t*t*(3-2*t);};
 function hx(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
 function mix(c1,c2,t){const a=hx(c1),b=hx(c2);return `rgb(${Math.round(lerp(a[0],b[0],t))},${Math.round(lerp(a[1],b[1],t))},${Math.round(lerp(a[2],b[2],t))})`;}
-const BONE='#ffffff', DARK='#0e0d0b', INK='#15140f';
+const BONE='#ffffff', DARK='#000000', INK='#15140f';
 const pagebg=document.getElementById('pagebg');
 const VH=()=>window.innerHeight;
 const mqMobile=window.matchMedia('(max-width: 820px)');
@@ -762,9 +896,9 @@ function frame(){
 
   // ---- INTRO → S1 : background fades black → white as the composition leaves; hook ink follows ----
   const introEl=document.getElementById('intro');
-  const introF=introEl?smooth(0.1,0.95,1-introEl.getBoundingClientRect().bottom/VH()):1;
+  const _hw=document.getElementById('ctx');const introF=0;
   const hookEl=document.getElementById('s1hook');
-  if(hookEl) hookEl.style.color=mix(BONE,INK,introF);
+  
   const hwrap=document.getElementById('s1hookwrap');
   if(hwrap){
     const hr=hwrap.getBoundingClientRect();
@@ -776,21 +910,26 @@ function frame(){
   // ---- CONTEXT : slit opens ----
   {const ctxEl=document.getElementById('ctx');
   if(ctxEl){
-    const r=ctxEl.getBoundingClientRect(), p=clamp(-r.top/Math.max(1,ctxEl.offsetHeight-VH()),0,1);
-    const sl=document.getElementById('cxSlit'), img=sl.querySelector('img');
-    const full=Math.min((img.naturalWidth&&img.naturalHeight)?sl.clientHeight*img.naturalWidth/img.naturalHeight:sl.clientHeight*2/3, window.innerWidth*(MOBILE?.7:.42));
-    sl.style.width=lerp(1,full,smooth(.05,.75,p))+'px';
-  }}
+    const r=ctxEl.getBoundingClientRect(), q=clamp(-r.top/Math.max(1,ctxEl.offsetHeight-VH()),0,1);
+    const K=Math.max(1,ctxEl.offsetHeight-VH())/(VH()*3.2), A=.24/K, B=A+(1-1/K);
+    const p=q<A?q*K:q<B?.24+.03*smooth(A,B,q):.27+(q-B)*(.73/(1-B));
+    const sub=document.getElementById('cxSubj'), im=sub.querySelector('img');
+    const Vh=sub.clientHeight, w=im.clientHeight/1.32, e=smooth(0,.3,p);
+    const vis=im.clientHeight/1.32, yF=.02*Vh+vis/2-.5*Vh, y=lerp(.5*Vh+vis/2, yF, e);
+    document.getElementById('parts').style.setProperty('--pt-top',(.02*Vh+vis-.12*Vh).toFixed(1)+'px');
+    const tf=smooth(0,.06,p)*(1-smooth(.27,.34,p)); document.querySelectorAll('#ctx .cx-t').forEach(t=>t.style.opacity=tf.toFixed(3));
+    const xs=im.clientHeight/2-sub.clientWidth/2;
+    im.style.transform=`translate(calc(-50% + ${xs.toFixed(1)}px),calc(-50% + ${y.toFixed(1)}px)) rotate(${(90+(1-e)*18).toFixed(2)}deg)`;  }}
   // ---- PARTS : white → black, words one at a time ----
   {const partsEl=document.getElementById('parts');
   if(partsEl){
     const r=partsEl.getBoundingClientRect(), p=clamp(-r.top/Math.max(1,partsEl.offsetHeight-VH()),0,1);
-    document.getElementById('ptStage').style.background=mix(BONE,'#000000',smooth(0,.16,p));
-    document.getElementById('ptHead').style.opacity=smooth(.16,.22,p);
+    
+    document.getElementById('ptHead').style.opacity=smooth(.02,.08,p);
     let cur=0;
     partsEl.querySelectorAll('[data-pt]').forEach((w,i)=>{
-      const a=.2+i*.26, inn=smooth(a,a+.08,p), out=i<2?smooth(a+.2,a+.26,p):0;
-      w.style.opacity=inn*(1-out); w.style.clipPath=`inset(${(1-inn)*100}% 0 0 0)`;
+      const a=.02+i*.26, inn=smooth(a,a+.08,p), out=i<2?smooth(a+.2,a+.26,p):0;
+      w.style.opacity=inn*(1-out); w.style.clipPath=inn>=.999?'none':`inset(${(1-inn)*100}% -5% -30% -5%)`;
       if(p>=a)cur=i;
     });
     document.getElementById('ptNum').textContent=`0${cur+1} / 03`;
@@ -817,13 +956,25 @@ function frame(){
     document.getElementById('rgNum').textContent=`0${c+1} / 0${tr.children.length}`;
   }}
 
-  // ---- TENSION : phrase alone, then shrinks to the sky as the tower rises ----
-  {const tz=document.getElementById('tension');
-  if(tz){
-    const r=tz.getBoundingClientRect(), p=clamp(-r.top/Math.max(1,tz.offsetHeight-VH()),0,1), H=VH();
-    const tx=document.getElementById('tzTx'), h=tx.offsetHeight, k=smooth(.18,.62,p);
-    tx.style.transform=`translate(0,${lerp((H-h)/2,40,k)}px) scale(${lerp(1,.44,k)})`;
-    document.getElementById('tzBd').style.transform=`translateY(${(1-smooth(.24,.8,p))*100}%)`;
+  // ---- PROBLEM : stretched question, counting stats ----
+  if(!window.__pbR){window.__pbR=1;const rs=()=>{const f=document.getElementById('pbFit');if(f)f._h=0;};addEventListener('resize',rs);document.fonts&&document.fonts.ready.then(()=>{rs();window.__frame&&window.__frame();});}
+  {const pf=null;
+  {
+    const H=VH();
+    const sb=document.getElementById('pbStats'), sr=sb.getBoundingClientRect(), c=smooth(H*.95,H*.35,sr.top);
+    sb.querySelectorAll('.num').forEach(n=>{n.textContent=Math.round(+n.dataset.to*c)+n.dataset.suf;});
+  }}
+  // ---- PERSONA : rotated face → vertical right + personas → turns 90° and leaves ----
+  {const ps=document.getElementById('persona');
+  if(ps){
+    const r=ps.getBoundingClientRect(), H=VH(), W=innerWidth, P=-r.top/H, img=ps.querySelector('.ps-img');
+    const j=smooth(1.4,2.1,P), t=smooth(3,3.7,P);
+    img.style.left=lerp(lerp(W*.5,W*.79,j),W*.5,t)+'px';
+    img.style.width=lerp(lerp(H,W*.42,j),H,t)+'px';
+    img.style.height=lerp(lerp(W,H,j),W,t)+'px';
+    img.style.transform=`translate(-50%,-50%) rotate(${lerp(90,0,j)+lerp(0,-90,t)}deg)`;
+    document.getElementById('psTitle').style.opacity=1-smooth(1.1,1.4,P);
+    document.querySelectorAll('#psList>div').forEach((el,i)=>{const q=smooth(2+i*.25,2.3+i*.25,P);el.style.opacity=q*(1-smooth(2.85,3.05,P));el.style.transform=`translateY(${(1-q)*40}px)`;});
   }}
 
   // ---- INTRO : logo rides up with the photo, rotates 90° beside the side photo, holds, then all scrolls up ----
@@ -842,6 +993,13 @@ function frame(){
     lg.style.width=LW+'px';
     lg.style.transform=`translate(${x}px,${y}px) rotate(${-90*t}deg) scale(${lerp(1,s,t)})`;
     lg.style.opacity=1;
+    const hl=document.getElementById('hkLogo'), over=-intro.getBoundingClientRect().top-2.5*H;
+    if(hl&&over>0){
+      const q=smooth(0,H,over), r=hl.getBoundingClientRect(), tcx=r.left+r.width/2, tcy=r.top+r.height/2;
+      const cx=lerp(ex,tcx,q), cy=lerp(ey,tcy,q), sc=lerp(s,(r.width||LW)/LW,q);
+      lg.style.transform=`translate(${cx-LW/2}px,${cy-LH/2}px) rotate(${-90*(1-q)}deg) scale(${sc})`;
+      lg.style.opacity=(r.bottom<0||!r.width)?0:1;
+    }
     document.getElementById('inSide').style.transform=`translateY(${(1-smooth(.34,.74,p))*100}%)`;
     const tt=smooth(.7,.9,p);
     tx.style.left=(ex-tx.offsetWidth/2)+'px';
@@ -968,18 +1126,18 @@ window.__frame=frame;
   window.addEventListener('resize',fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
 })();
 document.querySelectorAll('[data-ri-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const s=document.getElementById('ri-'+a.dataset.riGo);if(s)window.scrollTo({top:s.getBoundingClientRect().top+window.scrollY-60,behavior:'smooth'});}));
-function fitParts(){document.querySelectorAll('.pt-w').forEach(w=>{if(!w.clientWidth)return;const d=w.firstElementChild;d.style.transform='none';d.style.fontSize='100px';d.style.fontSize=(100*w.clientWidth/(d.getBoundingClientRect().width||1))+'px';d.style.transform=`scaleY(${w.clientHeight/(d.offsetHeight||1)})`;});}
+function fitParts(){document.querySelectorAll('.pt-w').forEach(w=>{if(!w.clientWidth)return;const d=w.firstElementChild;d.style.transform='none';d.style.fontSize='100px';d.style.fontSize=(96*w.clientWidth/(d.getBoundingClientRect().width||1))+'px';d.style.marginLeft=(w.clientWidth*.02)+'px';d.style.transform=`scaleY(${w.clientHeight/(d.offsetHeight||1)})`;});}
 fitParts();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitParts);
 window.addEventListener('resize',fitParts);setTimeout(fitParts,600);
-// hook: each line fills the width, then the block stretches vertically to fill the screen
+// hook: one size, widest line fills the width, lines centred and overlapping (difference)
 function fitHook(){
   const box=document.getElementById('s1hook'), hk=document.getElementById('s1hk'); if(!box||!hk)return;
   const cs=getComputedStyle(box), pad=parseFloat(cs.paddingLeft)||0;
   const aw=box.clientWidth-pad*2, ah=box.clientHeight-pad*2;
   hk.style.transform='none';
-  [...hk.children].forEach(s=>{s.style.fontSize='100px';const w=s.getBoundingClientRect().width||1;s.style.fontSize=(100*aw/w)+'px';});
-  const h=hk.getBoundingClientRect().height||1;
-  hk.style.transform=`scaleY(${ah/h})`;
+  const L=[...hk.children];L.forEach(s=>{s.style.fontSize='100px';s.style.marginTop='0'});
+  const mw=Math.max(...L.map(s=>s.getBoundingClientRect().width||1)), fs=Math.min(100*aw/mw,ah*.6/3/.8*1.1);
+  L.forEach((s,i)=>{s.style.fontSize=fs+'px';s.style.marginTop=i?(-.1*fs)+'px':'0';});
 }
 fitHook();
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitHook);
@@ -1046,5 +1204,6 @@ setTimeout(matchWorldCols,400);setTimeout(matchWorldCols,1200);
   }
 })();
 </script>
+<script>(()=>{const sys=document.getElementById('system');document.querySelectorAll('.sy-tile').forEach(t=>{t.addEventListener('mouseenter',()=>{t.classList.add('on');sys.classList.add('seen')});t.addEventListener('mouseleave',()=>t.classList.remove('on'));t.addEventListener('click',()=>{t.classList.toggle('on');sys.classList.add('seen')})})})();</script>
 </body>
 </html>
