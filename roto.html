@@ -330,7 +330,7 @@
   .crack-layer .crack.red{stroke:#e24a5e;opacity:.9;stroke-width:1.5}
   .ft-statement{font-family:var(--font-body);font-weight:500;font-size:clamp(22px,2.8vw,42px);line-height:1.32;letter-spacing:.005em;max-width:22ch}
   .ft-statement .em{color:var(--bonefade)}
-  .ft-rule{height:1px;background:rgba(231,225,212,.13);margin:8vh 0 4vh}
+  .ft-rule{height:1px;background:rgba(231,225,212,.13);margin:5vh 0 4vh}
   .ft-contact{display:flex;flex-wrap:wrap;gap:14px 30px;align-items:baseline;font-family:'Goldman',sans-serif}
   .ft-name{color:var(--bone);text-transform:uppercase;letter-spacing:.16em;font-size:12px}
   .ft-contact a{color:var(--bonefade);text-decoration:none;text-transform:uppercase;letter-spacing:.12em;font-size:12px;border-bottom:1px solid transparent;padding-bottom:2px;transition:color .2s,border-color .2s}
@@ -350,13 +350,13 @@
     80% {transform:translate(-2px,0);filter:drop-shadow(3px 0 #e24a5e) drop-shadow(-3px 0 #38c5d6)}
     100%{transform:translate(0,0);filter:none;clip-path:none;opacity:.9}
   }
-  .ft-colophon{display:flex;flex-direction:column;gap:16px;max-width:780px}
+  .ft-colophon{display:flex;flex-direction:column;gap:18px;max-width:none;margin-top:8vh}
   .ft-co-meta{font-family:'Goldman',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone)}
   .ft-credits{display:flex;flex-direction:column;border-top:1px solid rgba(231,225,212,.14)}
-  .ft-credits .row{display:grid;grid-template-columns:1fr auto;gap:10px 48px;align-items:baseline;padding:9px 0;border-bottom:1px solid rgba(231,225,212,.08)}
-  .ft-credits dt{margin:0;font-family:'Goldman',sans-serif;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:#7d7666}
-  .ft-credits dd{margin:0;font-family:var(--font-body);font-weight:500;font-size:14px;color:#7d7666;letter-spacing:.01em;text-align:right}
-  .ft-copyright{font-family:'Goldman',sans-serif;font-size:10.5px;letter-spacing:.08em;color:#6f6857}
+  .ft-credits .row{display:grid;grid-template-columns:1fr auto;gap:10px 48px;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(231,225,212,.08)}
+  .ft-credits dt{margin:0;font-family:'Goldman',sans-serif;font-size:13px;letter-spacing:.11em;text-transform:uppercase;color:#7d7666}
+  .ft-credits dd{margin:0;font-family:var(--font-body);font-weight:500;font-size:clamp(17px,1.5vw,22px);color:var(--bone);letter-spacing:.01em;text-align:right}
+  .ft-copyright{font-family:'Goldman',sans-serif;font-size:12px;letter-spacing:.08em;color:#6f6857}
   @media(max-width:640px){.ft-credits .row{grid-template-columns:1fr;gap:3px}.ft-credits dd{text-align:left}}
   /* full-screen looping ROTO film with a mark sweeping over it */
   #rotofilm{position:relative;background:transparent}
@@ -524,8 +524,7 @@
       <div><span class="ix">[ 03 ]</span><span class="num" data-to="2" data-suf="×">2×</span><span class="cap">Two times the likelihood of addiction.</span></div>
     </div>
     <p class="pb-pre">Humans need collective rituals to overcome difficulties. If prehistoric humans had cave paintings, punkies used protests, and ravers had warehouses: what is the ritual for the 2020s urban youth?</p>
-    <div class="pb-ban"><img src="assets/roto-ritual.png" alt="Covered silhouettes sitting above the city"></div>
-    <div class="pb-cap"><span>( FIG. A )</span><span>Ritual</span></div>
+    <div class="pb-ban"><img src="assets/roto-ritual-crop.jpg" alt="Covered silhouettes sitting above the city"></div>
   </div>
   <div class="ri-sec" id="ri-1" data-ri-sec="1">
     <div class="ri-big"><span class="n">02</span><span class="t">The brand</span></div>
@@ -719,18 +718,17 @@
 <!-- ===================== FOOTER ===================== -->
 <footer id="footer">
   <p class="ft-statement rv">We built a brand about surviving the city while we were learning to survive it ourselves. <span class="em">ROTO is where it started.</span></p>
-  <div class="ft-rule"></div>
-  <div class="ft-contact">
-    <span class="ft-name">Hugo López</span>
-    <a href="mailto:hugolgromero@gmail.com">hugolgromero@gmail.com</a>
-    <a href="https://www.linkedin.com/in/hugo-lopez-gonzalez-801a89213/" target="_blank" rel="noopener">LinkedIn</a>
-  </div>
-  <img class="ft-logo rv" src="assets/footer-logo.png" alt="ROTO">
   <div class="ft-colophon">
     <dl class="ft-credits">
       <div class="row"><dt>Co-designed by</dt><dd>Hugo López &amp; Priscilla Piraino</dd></div>
     </dl>
     <div class="ft-copyright">© 2025 ROTO, All rights reserved</div>
+  </div>
+  <img class="ft-logo rv" src="assets/footer-logo.png" alt="ROTO" style="margin-top:8vh">
+  <div class="ft-rule"></div>
+  <div class="ft-contact">
+    <a href="mailto:hugolgromero@gmail.com">hugolgromero@gmail.com</a>
+    <a href="https://www.linkedin.com/in/hugo-lopez-gonzalez-801a89213/" target="_blank" rel="noopener">LinkedIn</a>
   </div>
   <svg class="crack-layer" id="crackLayer" aria-hidden="true"></svg>
 </footer>
